@@ -14,3 +14,6 @@ Turns a 2D map into a 3D-like first-person view. Player moves, collision, sprite
 
 ## Build & Run
 
+```bash
+make
+./cub3D path/to/map.cub
