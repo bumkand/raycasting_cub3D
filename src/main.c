@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 18:06:08 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/13 18:24:20 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/14 13:30:27 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 // See README in the root project for more information.
 // -----------------------------------------------------------------------------
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "MLX42/MLX42.h"
+#include "../header/cub3d.h"
 
 #define WIDTH 512
 #define HEIGHT 512
