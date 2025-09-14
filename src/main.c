@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 18:06:08 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/14 13:30:27 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/14 14:24:40 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@
 // -----------------------------------------------------------------------------
 
 #include "../header/cub3d.h"
-
-#define WIDTH 512
-#define HEIGHT 512
 
 static mlx_image_t* image;
 
@@ -75,7 +72,7 @@ int32_t main(void)
 		puts(mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
-	if (!(image = mlx_new_image(mlx, 128, 128)))
+	if (!(image = mlx_new_image(mlx, 50, 50)))
 	{
 		mlx_close_window(mlx);
 		puts(mlx_strerror(mlx_errno));

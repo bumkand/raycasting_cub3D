@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/14 13:29:35 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/14 14:23:54 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+
+#define WIDTH 850
+#define HEIGHT 550
 
 #endif
