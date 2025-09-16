@@ -6,89 +6,222 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 18:06:08 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/14 14:24:40 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/16 22:08:59 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// -----------------------------------------------------------------------------
-// Codam Coding College, Amsterdam @ 2022-2023 by W2Wizard.
-// See README in the root project for more information.
-// -----------------------------------------------------------------------------
-
 #include "../header/cub3d.h"
 
-static mlx_image_t* image;
-
-// -----------------------------------------------------------------------------
-
-int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
+int	check_map_char(char *line)
 {
-    return (r << 24 | g << 16 | b << 8 | a);
+	int	count;
+
+	count = 0;
+	while (*line)
+	{
+		if (*line != '1' && *line != '0' && *line != ' ' && *line != 'N'
+			&& *line != 'S' && *line != 'E' && *line != 'W' && *line != '\n')
+			return (printf("Wrong char in the map\n"), 1);
+		if (*line == 'N' || *line == 'S' || *line == 'E' || *line == 'W')
+			count++;
+		if (count > 1)
+			return (printf("More than 1 starting position\n"), 1);
+		line++;
+	}
+	return (0);
 }
 
-void ft_randomize(void* param)
+int	get_width(int fd)
 {
-	(void)param;
-	for (uint32_t i = 0; i < image->width; ++i)
+	int		i;
+	int		x;
+	int		k;
+	int		count;
+	char	*line;
+
+	i = 0;
+	x = 0;
+	while (1)
 	{
-		for (uint32_t y = 0; y < image->height; ++y)
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		i++;
+		if (i > 7 && line)
 		{
-			uint32_t color = ft_pixel(
-				rand() % 0xFF, // R
-				rand() % 0xFF, // G
-				rand() % 0xFF, // B
-				rand() % 0xFF  // A
-			);
-			mlx_put_pixel(image, i, y, color);
+			k = 0;
+			count = 0;
+			while (line[k] && line[k] != '\n')
+			{
+				if (line[k] != ' ')
+					count = k;
+				k++;
+			}
+			if (count + 1 > x)
+				x = count + 1;
 		}
+		free(line);
 	}
+	return (x);
 }
 
-void ft_hook(void* param)
+int	get_height(int fd)
 {
-	mlx_t* mlx = param;
+	int		i;
+	int		y;
+	int		k;
+	char	*line;
 
-	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(mlx);
-	if (mlx_is_key_down(mlx, MLX_KEY_UP))
-		image->instances[0].y -= 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
-		image->instances[0].y += 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
-		image->instances[0].x -= 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-		image->instances[0].x += 5;
+	i = 0;
+	y = 0;
+	k = 0;
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		i++;
+		if (i > 7)
+		{
+			while (line[k] != '\n')
+			{
+				if (line[k] != ' ')
+				{
+					y++;
+					break ;
+				}
+				k++;
+			}
+		}
+		free(line);
+	}
+	return (y);
 }
 
-// -----------------------------------------------------------------------------
-
-int32_t main(void)
+int	init_data(t_game *game, int fd)
 {
-	mlx_t* mlx;
+	fd = open("maps/valid_map_1.cub", O_RDONLY);
+	game->height = get_height(fd);
+	close(fd);
+	fd = open("maps/valid_map_1.cub", O_RDONLY);
+	game->width = get_width(fd);
+	close(fd);
+	printf(" game height = %i\n game width = %i\n", game->height, game->width);
 
-	// Gotta error check this stuff
-	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
+	return (0);
+}
+
+int	main(void)
+{
+	char	*line;
+	int		fd;
+	int		i;
+	t_game	game;
+
+	fd = open("maps/valid_map_1.cub", O_RDONLY);
+	if (fd < 0)
+		return (printf("fd error\n"), 1);
+	i = 0;
+	while (1)
 	{
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
+		line = get_next_line(fd);
+		if (i > 7 && line && check_map_char(line))
+		{
+			free(line);
+			break ;
+		}
+		if (!line)
+			break ;
+		printf("%s", line);
+		free(line);
+		i++;
 	}
-	if (!(image = mlx_new_image(mlx, 50, 50)))
-	{
-		mlx_close_window(mlx);
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	if (mlx_image_to_window(mlx, image, 0, 0) == -1)
-	{
-		mlx_close_window(mlx);
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
+	close(fd);
+	if (init_data(&game, fd))
+		return (1);
+	return (0);
+}
+
+
+//// -----------------------------------------------------------------------------
+//// Codam Coding College, Amsterdam @ 2022-2023 by W2Wizard.
+//// See README in the root project for more information.
+//// -----------------------------------------------------------------------------
+
+//#include "../header/cub3d.h"
+
+//static mlx_image_t* image;
+
+//// -----------------------------------------------------------------------------
+
+//int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
+//{
+//    return (r << 24 | g << 16 | b << 8 | a);
+//}
+
+//void ft_randomize(void* param)
+//{
+//	(void)param;
+//	for (uint32_t i = 0; i < image->width; ++i)
+//	{
+//		for (uint32_t y = 0; y < image->height; ++y)
+//		{
+//			uint32_t color = ft_pixel(
+//				rand() % 0xFF, // R
+//				rand() % 0xFF, // G
+//				rand() % 0xFF, // B
+//				rand() % 0xFF  // A
+//			);
+//			mlx_put_pixel(image, i, y, color);
+//		}
+//	}
+//}
+
+//void ft_hook(void* param)
+//{
+//	mlx_t* mlx = param;
+
+//	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
+//		mlx_close_window(mlx);
+//	if (mlx_is_key_down(mlx, MLX_KEY_UP))
+//		image->instances[0].y -= 5;
+//	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
+//		image->instances[0].y += 5;
+//	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
+//		image->instances[0].x -= 5;
+//	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
+//		image->instances[0].x += 5;
+//}
+
+//// -----------------------------------------------------------------------------
+
+//int32_t main(void)
+//{
+//	mlx_t* mlx;
+
+//	// Gotta error check this stuff
+//	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
+//	{
+//		puts(mlx_strerror(mlx_errno));
+//		return(EXIT_FAILURE);
+//	}
+//	if (!(image = mlx_new_image(mlx, 50, 50)))
+//	{
+//		mlx_close_window(mlx);
+//		puts(mlx_strerror(mlx_errno));
+//		return(EXIT_FAILURE);
+//	}
+//	if (mlx_image_to_window(mlx, image, 0, 0) == -1)
+//	{
+//		mlx_close_window(mlx);
+//		puts(mlx_strerror(mlx_errno));
+//		return(EXIT_FAILURE);
+//	}
 	
-	mlx_loop_hook(mlx, ft_randomize, mlx);
-	mlx_loop_hook(mlx, ft_hook, mlx);
+//	mlx_loop_hook(mlx, ft_randomize, mlx);
+//	mlx_loop_hook(mlx, ft_hook, mlx);
 
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
-	return (EXIT_SUCCESS);
-}
+//	mlx_loop(mlx);
+//	mlx_terminate(mlx);
+//	return (EXIT_SUCCESS);
+//}

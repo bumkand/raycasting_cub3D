@@ -1,39 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/16 19:47:43 by jakand           ###   ########.fr       */
+/*   Created: 2024/12/10 16:40:09 by jaandras          #+#    #+#             */
+/*   Updated: 2025/03/27 21:48:19 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-# define BUFFER_SIZE 1
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
 
-# define WIDTH 850
-# define HEIGHT 550
-
-# include "MLX42/MLX42.h"
+# include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <stdbool.h>
-# include <fcntl.h>
 # include <unistd.h>
 
-typedef struct s_game
-{
-	char	**map;
-	int		width;
-	int		height;
-}	t_game;
-
-
-// Get Next Line Functions
 char	*get_next_line(int fd);
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_free_join(char *buffer, char *line);
