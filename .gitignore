@@ -1,0 +1,44 @@
+# Executable
+cube3d
+
+# Object files
+*.o
+*.o.d
+*.obj
+*.a
+*.so
+*.dylib
+
+# VS Code
+.vscode/
+
+# Compiled files
+*.out
+*.exe
+
+# Debug files
+*.dSYM/
+*.su
+
+# Temporary files
+*~
+*.swp
+*.tmp
+
+# MLX build files
+MLX/build/
+MLX/cmake/
+
+# CMake files (obecně)
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
