@@ -1,5 +1,5 @@
 # Executable
-cube3d
+cub3d
 
 # Object files
 *.o
@@ -26,8 +26,8 @@ cube3d
 *.tmp
 
 # MLX build files
-MLX/build/
-MLX/cmake/
+MLX42/build/
+MLX42/cmake/
 
 # CMake files (obecně)
 CMakeCache.txt
