@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 18:06:08 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/16 22:08:59 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/17 19:47:33 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int	get_height(int fd)
 
 	i = 0;
 	y = 0;
-	k = 0;
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -83,6 +82,7 @@ int	get_height(int fd)
 		i++;
 		if (i > 7)
 		{
+			k = 0;
 			while (line[k] != '\n')
 			{
 				if (line[k] != ' ')
@@ -100,6 +100,26 @@ int	get_height(int fd)
 
 int	init_data(t_game *game, int fd)
 {
+	int		i;
+	char	*line;
+	
+	fd = open("maps/valid_map_1.cub", O_RDONLY);
+	while (1)
+	{
+		i = 0;
+		line = get_next_line(fd);
+		if (!line)
+			return (free(line), 1);
+		while (line[i] != '\n')
+		{
+			if (line[i] > 8 && line[i] < 14)
+				return (free(line), 1);
+			if (line[i] == 'N' && line[i + 1] == 'O')
+			{
+				
+			}
+		}
+	}
 	fd = open("maps/valid_map_1.cub", O_RDONLY);
 	game->height = get_height(fd);
 	close(fd);
@@ -107,7 +127,6 @@ int	init_data(t_game *game, int fd)
 	game->width = get_width(fd);
 	close(fd);
 	printf(" game height = %i\n game width = %i\n", game->height, game->width);
-
 	return (0);
 }
 
