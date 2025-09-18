@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 18:06:08 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/17 19:47:33 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/18 19:55:44 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,28 +98,159 @@ int	get_height(int fd)
 	return (y);
 }
 
+int	count_lines(int height, char *line, int fd)
+{
+	height = 0;
+	while (line)
+	{
+		height++;
+		free(line);
+		line = get_next_line(fd);
+	}
+	close(fd);
+	return (height);
+}
+
+int	lines_lenght(char ****cub_file, char *line, int height)
+{
+	int	lenght;
+	int	j;
+
+	lenght = 0;
+	while (line[lenght] != '\n' && line[lenght])
+		lenght++;
+	(**cub_file)[height] = malloc((lenght + 1) * sizeof(char));
+	if (!(**cub_file)[height])
+		return (free(line), 1);
+	j = 0;
+	while (j < lenght)
+	{
+		(**cub_file)[height][j] = line[j];
+		j++;
+	}
+	(**cub_file)[height][j] = '\0';
+	free(line);
+	return (0);
+}
+
+int	get_cub_file(char ***cub_file, int fd, char *line)
+{
+	int	height;
+
+	height = count_lines(0, line, fd);
+	*cub_file = malloc((height + 1) * sizeof(char *));
+	if (!*cub_file)
+		return (1);
+	fd = open("maps/valid_map_1.cub", O_RDONLY);
+	line = get_next_line(fd);
+	height = 0;
+	while (line)
+	{
+		if (lines_lenght(&cub_file, line, height))
+			return (close(fd), 1);
+		line = get_next_line(fd);
+		height++;
+	}
+	(*cub_file)[height] = NULL;
+	close(fd);
+	return (0);
+}
+
+int	fill_texture(char *line, int i, t_game *game)
+{
+	int	y;
+	int	j;
+
+	while (line[i] == ' ')
+		i++;
+	if (line[i] >= 9 && line[i] <= 13)
+		return (free(line), printf("Init whitespace\n"), 1);
+	if (line[i] != '\n' && line[i] != '\0')
+	{
+		y = i;
+		printf("y = %i\n", y);
+		while (line[i] != '\n' && line[i] != '\0' && line[i] != ' ')
+			i++;
+		printf("i = %i\n", i);
+		j = i - y;
+		printf("j = %i\n", j);
+		game->text_no = malloc((j + 1) * sizeof(char));
+		if (!game->text_no)
+			return (free(line), printf("text_no malloc error\n"), 1);
+		i = 0;
+		while (i < j)
+		{
+			game->text_no[i] = line[y];
+			i++;
+			y++;
+		}
+		game->text_no[i] = '\0';
+	}
+
+	return (0);
+}
+
+int	init_texture(char *line, t_game *game)
+{
+	int	x;
+
+	x = 0;
+	while (line[x] != '\n' && line[x] != '\0')
+	{
+		while (line[x] == ' ')
+			x++;
+		if (line[x] >= 9 && line[x] <= 13)
+		{
+			if (game->text_no)
+				free(game->text_no);
+			return (printf("Whitespace in file\n"), 1);
+		}
+		if (line[x] == 'N' && line[x + 1] && line[x + 1] == 'O')
+		{
+			x += 2;
+			if (fill_texture(line, x, game))
+				return (printf("Fill texture error\n"), 1);
+		}
+		x++;
+	}
+	return (0);
+}
+
 int	init_data(t_game *game, int fd)
 {
+	int		y;
 	int		i;
 	char	*line;
-	
+	char	**cub_file;
+
 	fd = open("maps/valid_map_1.cub", O_RDONLY);
-	while (1)
+	line = get_next_line(fd);
+	if (get_cub_file(&cub_file, fd, line))
+		return (printf(".cub File Array Error\n"), 1);
+	//i = 0;
+	//while (cub_file[i])
+	//{
+	//	printf("%s\n", cub_file[i]);
+	//	i++;
+	//}
+	y = 0;
+	while (cub_file[y])
 	{
-		i = 0;
-		line = get_next_line(fd);
-		if (!line)
-			return (free(line), 1);
-		while (line[i] != '\n')
+		if (init_texture(cub_file[y], game))
 		{
-			if (line[i] > 8 && line[i] < 14)
-				return (free(line), 1);
-			if (line[i] == 'N' && line[i + 1] == 'O')
+			i = 0;
+			while (cub_file[i])
 			{
-				
+				free(cub_file[i]);
+				i++;
 			}
+			if (cub_file)
+				free(cub_file);
+			return (1);
 		}
+		y++;
 	}
+	printf("NO texture = %s\n", game->text_no);
 	fd = open("maps/valid_map_1.cub", O_RDONLY);
 	game->height = get_height(fd);
 	close(fd);
@@ -127,6 +258,14 @@ int	init_data(t_game *game, int fd)
 	game->width = get_width(fd);
 	close(fd);
 	printf(" game height = %i\n game width = %i\n", game->height, game->width);
+	i = 0;
+	while (cub_file[i])
+	{
+		free(cub_file[i]);
+		i++;
+	}
+	if (cub_file)
+		free(cub_file);
 	return (0);
 }
 
@@ -156,10 +295,56 @@ int	main(void)
 		i++;
 	}
 	close(fd);
+	game.text_no = NULL;
 	if (init_data(&game, fd))
+	{
+		if (line)
+			free(line);
 		return (1);
+	}
+	if (game.text_no)
+		free(game.text_no);
 	return (0);
 }
+
+
+
+//i = 0;
+//		y = 0;
+//		line = get_next_line(fd);
+//		if (!line)
+//			break ;
+//		while (line[i] != '\n')
+//		{
+//			if (line[i] >= 9 && line[i] <= 13)
+//				return (free(line), 1);
+//			if (line[i] == 'N' && line[i + 1] && line[i + 1] == 'O')
+//			{
+//				i += 2;
+//				while (line[i] == ' ')
+//					i++;
+//				while (line[i] != '\n' && line[i] != ' ')
+//				{
+//					if (!game->text_no && (line[i] == '\n' || line[i] == ' '))
+//					{
+//						game->text_no = malloc((y + 1) * sizeof(char));
+//						if (!game->text_no)
+//							return (free(line), 1);
+//						i = i - y;
+//						y = 0;
+//					}
+//					if (game->text_no)
+//						game->text_no[y] = line[i];
+//					i++;
+//					y++;
+//				}
+//				if (game->text_no)
+//					game->text_no[y] = '\0';
+//				i++;
+//			}
+//			i++;
+//		}
+//		free(line);
 
 
 //// -----------------------------------------------------------------------------
