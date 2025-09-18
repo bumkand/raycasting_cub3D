@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/16 19:47:43 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/18 21:49:46 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,14 @@
 
 typedef struct s_game
 {
+	mlx_t			*mlx;
+    mlx_image_t		*player_img;
+	
+	// Player position (in pixel coordinates for now)
+    int             player_x;
+    int             player_y;
+	
+	// Map data
 	char	**map;
 	int		width;
 	int		height;
@@ -40,5 +48,16 @@ char	*ft_free_join(char *buffer, char *line);
 char	*ft_strjoin(char *s1, char *s2);
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);
+
+int		init_game(t_game *game);
+
+int     init_player(t_game *game);
+void    update_player_position(t_game *game);
+void    render_player(t_game *game);
+int     check_collision(t_game *game, int new_x, int new_y);
+
+// game.c
+void 	game_loop(t_game *game);
+
 
 #endif

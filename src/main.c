@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 18:06:08 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/16 22:08:59 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/18 21:50:17 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/cub3d.h"
+#include "cub3d.h"
 
 int	check_map_char(char *line)
 {
@@ -139,6 +139,9 @@ int	main(void)
 	close(fd);
 	if (init_data(&game, fd))
 		return (1);
+	if (init_game(&game) || init_player(&game))
+    	return (1);
+	game_loop(&game);
 	return (0);
 }
 
