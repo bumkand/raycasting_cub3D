@@ -6,11 +6,11 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:17:10 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/18 22:54:20 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/19 17:48:25 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/cub3d.h"
+#include "cub3d.h"
 
 int	fill_texture(char *line, int i, char **texture)
 {
@@ -42,24 +42,31 @@ int	fill_texture(char *line, int i, char **texture)
 	return (0);
 }
 
+int	check_order(char *text_1, char *text_2)
+{
+	if (text_1 && text_2)
+		return (1);
+	return (0);
+}
+
 int	choose_texture(char *line, int *x, t_game *game)
 {
 	if (line[*x] == 'N' && line[*x + 1] && line[*x + 1] == 'O')
 	{
 		(*x) += 2;
-		if (fill_texture(line, *x, &game->text_no))
+		if (fill_texture(line, *x, &game->text_no) || check_order(game->text_no, game->text_so))
 			return (printf("Fill texture error\n"), 1);
 	}
 	else if (line[*x] == 'S' && line[*x + 1] && line[*x + 1] == 'O')
 	{
 		(*x) += 2;
-		if (fill_texture(line, *x, &game->text_so))
+		if (fill_texture(line, *x, &game->text_so) || check_order(game->text_so, game->text_we))
 			return (printf("Fill texture error\n"), 1);
 	}
 	else if (line[*x] == 'W' && line[*x + 1] && line[*x + 1] == 'E')
 	{
 		(*x) += 2;
-		if (fill_texture(line, *x, &game->text_we))
+		if (fill_texture(line, *x, &game->text_we) || check_order(game->text_we, game->text_ea))
 			return (printf("Fill texture error\n"), 1);
 	}
 	else if (line[*x] == 'E' && line[*x + 1] && line[*x + 1] == 'A')
@@ -68,10 +75,11 @@ int	choose_texture(char *line, int *x, t_game *game)
 		if (fill_texture(line, *x, &game->text_ea))
 			return (printf("Fill texture error\n"), 1);
 	}
+	//else if (line[*x] == 'F' || check_order(game->text_ea, game->color_f[0]))
 	return (0);
 }
 
-int	init_texture(char *line, t_game *game)
+int	init_texture_color_map(char *line, t_game *game)
 {
 	int	x;
 
@@ -96,7 +104,6 @@ int	init_texture(char *line, t_game *game)
 int	init_data(t_game *game, int fd)
 {
 	int		y;
-	int		i;
 	char	*line;
 	char	**cub_file;
 
@@ -104,27 +111,17 @@ int	init_data(t_game *game, int fd)
 	line = get_next_line(fd);
 	if (get_cub_file(&cub_file, fd, line))
 		return (printf(".cub File Array Error\n"), 1);
-	//i = 0;
-	//while (cub_file[i])
+	//y = 0;
+	//while (cub_file[y])
 	//{
-	//	printf("%s\n", cub_file[i]);
-	//	i++;
+	//	printf("%s\n", cub_file[y]);
+	//	y++;
 	//}
 	y = 0;
 	while (cub_file[y])
 	{
-		if (init_texture(cub_file[y], game))
-		{
-			i = 0;
-			while (cub_file[i])
-			{
-				free(cub_file[i]);
-				i++;
-			}
-			if (cub_file)
-				free(cub_file);
-			return (1);
-		}
+		if (init_texture_color_map(cub_file[y], game))
+			return (free_cub(cub_file), 1);
 		y++;
 	}
 	printf("NO texture = %s\nSO texture = %s\nWE texture = %s\nEA texture = %s\n", game->text_no, game->text_so, game->text_we, game->text_ea);
@@ -135,13 +132,6 @@ int	init_data(t_game *game, int fd)
 	game->width = get_width(fd);
 	close(fd);
 	printf(" game height = %i\n game width = %i\n", game->height, game->width);
-	i = 0;
-	while (cub_file[i])
-	{
-		free(cub_file[i]);
-		i++;
-	}
-	if (cub_file)
-		free(cub_file);
+	free_cub(cub_file);
 	return (0);
 }

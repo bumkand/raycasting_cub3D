@@ -6,11 +6,11 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:19:03 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/18 22:29:41 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/19 16:15:28 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/cub3d.h"
+#include "cub3d.h"
 
 int	count_lines(int height, char *line, int fd)
 {

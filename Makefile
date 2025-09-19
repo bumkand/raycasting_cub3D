@@ -9,7 +9,7 @@ OBJ_DIR = obj
 
 # Source files
 SRCS = main.c get_next_line.c get_next_line_utils.c init.c \
-		player.c game.c
+		player.c game.c init_data.c cub_file.c free_functions.c \
 
 # Add src/ prefix to source files  
 SRCS := $(addprefix $(SRC_DIR)/,$(SRCS))
