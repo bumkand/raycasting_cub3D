@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/17 17:46:52 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/19 15:50:08 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,15 @@ int     check_collision(t_game *game, int new_x, int new_y);
 
 // game.c
 void 	game_loop(t_game *game);
+
+
+int	get_cub_file(char ***cub_file, int fd, char *line);
+
+int	get_height(int fd);
+int	get_width(int fd);
+
+void	free_texture(t_game *game);
+
 
 
 #endif
