@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/17 17:46:52 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/18 22:23:40 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,15 @@ char	*ft_free_join(char *buffer, char *line);
 char	*ft_strjoin(char *s1, char *s2);
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);
+
+int	init_data(t_game *game, int fd);
+int	get_cub_file(char ***cub_file, int fd, char *line);
+
+int	get_height(int fd);
+int	get_width(int fd);
+
+void	free_texture(t_game *game);
+
+
 
 #endif

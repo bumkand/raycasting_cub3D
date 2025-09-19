@@ -6,7 +6,7 @@ SRC_DIR = src
 
 HEADERS = -I ./include -I $(LIBMLX)/include
 LIBS = $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
-SRCS = $(addprefix $(SRC_DIR)/, main.c get_next_line.c get_next_line_utils.c )
+SRCS = $(addprefix $(SRC_DIR)/, main.c get_next_line.c get_next_line_utils.c cub_file.c init_data.c)
 OBJS = $(SRCS:.c=.o)
 
 all: libmlx $(NAME)
