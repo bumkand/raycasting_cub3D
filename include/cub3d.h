@@ -18,6 +18,8 @@
 # define WIDTH 850
 # define HEIGHT 550
 
+# define MOVE_SPEED 5
+
 # include "MLX42/MLX42.h"
 # include <stdio.h>
 # include <stdlib.h>
@@ -29,11 +31,11 @@ typedef struct s_game
 {
 	mlx_t			*mlx;
     mlx_image_t		*player_img;
-	
+
 	// Player position (in pixel coordinates for now)
     int             player_x;
     int             player_y;
-	
+
 	// Map data
 	char	**map;
 	int		width;
@@ -58,7 +60,7 @@ char	*ft_strchr(const char *s, int c);
 int		init_game(t_game *game);
 
 int     init_player(t_game *game);
-void    update_player_position(t_game *game);
+void    update_player_position(void *param);
 void    render_player(t_game *game);
 int     check_collision(t_game *game, int new_x, int new_y);
 
@@ -74,7 +76,5 @@ int	get_width(int fd);
 
 void	free_texture(t_game *game);
 void	free_cub(char **cub_file);
-
-
 
 #endif

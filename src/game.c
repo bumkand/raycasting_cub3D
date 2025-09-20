@@ -15,8 +15,7 @@
 void setup_hooks(t_game *game)
 {
     (void) game;
-    // mlx_loop_hook(game->mlx, update_game, game);
-    // mlx_key_hook(game->mlx, handle_keys, game);
+    mlx_loop_hook(game->mlx, update_player_position, game);
 }
 
 void game_loop(t_game *game)
