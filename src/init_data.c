@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:17:10 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/19 17:48:25 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/20 21:39:34 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	fill_texture(char *line, int i, char **texture)
 {
-	int	y;
+	int	y = 0;
 	int	j;
 
 	while (line[i] == ' ')
