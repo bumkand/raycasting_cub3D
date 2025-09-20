@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/20 18:17:57 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/20 18:53:19 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ typedef struct s_game
 {
 	mlx_t			*mlx;
     mlx_image_t		*player_img;
-	
+
 	// Player position (in pixel coordinates for now)
     int             player_x;
     int             player_y;
-	
+
 	// Map data
 	char	**map;
 	int		width;
@@ -42,8 +42,8 @@ typedef struct s_game
 	char	*text_so;			// Texture South
 	char	*text_we;			// Texture West
 	char	*text_ea;			// Texture East
-	char	color_f[3];			// RGB Floor
-	char	color_c[3];			// RGB Ceiling
+	int		color_f[3];			// RGB Floor
+	int		color_c[3];			// RGB Ceiling
 }	t_game;
 
 
