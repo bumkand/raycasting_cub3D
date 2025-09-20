@@ -26,6 +26,7 @@
 # include <stdbool.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <math.h>
 
 typedef struct s_game
 {
@@ -35,6 +36,7 @@ typedef struct s_game
 	// Player position (in pixel coordinates for now)
     int             player_x;
     int             player_y;
+    double          player_angle;
 
 	// Map data
 	char	**map;

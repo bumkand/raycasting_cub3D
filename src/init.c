@@ -31,6 +31,7 @@ int     init_player(t_game *game)
     y = 0;
     game->player_x = 100; // Initial X position
     game->player_y = 100; // Initial Y position
+    game->player_angle = 0.0;
     game->player_img = mlx_new_image(game->mlx, 32, 32);
     if (!game->player_img)
         return (1);

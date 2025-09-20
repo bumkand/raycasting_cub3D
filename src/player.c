@@ -23,14 +23,32 @@ void update_player_position(void *param)
     int new_y = game->player_y;
 
     // Calculate new position based on key presses
-    if (mlx_is_key_down(game->mlx, MLX_KEY_W) || mlx_is_key_down(game->mlx, MLX_KEY_UP))
-        new_y -= MOVE_SPEED;
-    if (mlx_is_key_down(game->mlx, MLX_KEY_S) || mlx_is_key_down(game->mlx, MLX_KEY_DOWN))
-        new_y += MOVE_SPEED;
-    if (mlx_is_key_down(game->mlx, MLX_KEY_A) || mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
-        new_x -= MOVE_SPEED;
-    if (mlx_is_key_down(game->mlx, MLX_KEY_D) || mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
-        new_x += MOVE_SPEED;
+    if (mlx_is_key_down(game->mlx, MLX_KEY_W))
+    {
+        new_x += cos(game->player_angle) * MOVE_SPEED;
+        new_y += sin(game->player_angle) * MOVE_SPEED;
+    }
+    if (mlx_is_key_down(game->mlx, MLX_KEY_S))
+    {
+        new_x -= cos(game->player_angle) * MOVE_SPEED;
+        new_y -= sin(game->player_angle) * MOVE_SPEED;
+    }
+
+    if (mlx_is_key_down(game->mlx, MLX_KEY_A))
+    {
+        new_x += cos(game->player_angle - M_PI/2) * MOVE_SPEED;
+        new_y += sin(game->player_angle - M_PI/2) * MOVE_SPEED;
+    }
+    if (mlx_is_key_down(game->mlx, MLX_KEY_D))
+    {
+        new_x += cos(game->player_angle + M_PI/2) * MOVE_SPEED;
+        new_y += sin(game->player_angle + M_PI/2) * MOVE_SPEED;
+    }
+
+    if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
+        game->player_angle -= 0.05;  // Rotace vlevo
+    if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+        game->player_angle += 0.05;  // Rotace vpravo
 
     // Check if movement is valid before applying
     if (check_collision(game, new_x, new_y))
