@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 21:39:34 by marcel            #+#    #+#             */
-/*   Updated: 2025/09/18 21:52:18 by marcel           ###   ########.fr       */
+/*   Updated: 2025/09/20 22:57:08 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void setup_hooks(t_game *game)
 {
     (void) game;
     mlx_loop_hook(game->mlx, update_player_position, game);
+    mlx_loop_hook(game->mlx, draw_ray, game);
 }
 
 void game_loop(t_game *game)

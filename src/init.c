@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:44:19 by marcel            #+#    #+#             */
-/*   Updated: 2025/09/18 21:51:21 by marcel           ###   ########.fr       */
+/*   Updated: 2025/09/20 23:09:01 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,19 @@ int     init_player(t_game *game)
         y++;
     }
     mlx_image_to_window(game->mlx, game->player_img, game->player_x, game->player_y);
+    if (init_ray(game))
+        return (1);
+    return (0);
+}
+
+int init_ray(t_game *game)
+{
+    game->ray_img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
+    if (!game->ray_img)
+        return (1);
+    
+    if (mlx_image_to_window(game->mlx, game->ray_img, 0, 0) < 0)
+        return (1); 
+    
     return (0);
 }

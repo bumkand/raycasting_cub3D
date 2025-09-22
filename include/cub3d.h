@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/20 18:17:57 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/20 23:06:52 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_game
     int             player_x;
     int             player_y;
     double          player_angle;
+	mlx_image_t		*ray_img;
 
 	// Map data
 	char	**map;
@@ -62,6 +63,7 @@ char	*ft_strchr(const char *s, int c);
 int		init_game(t_game *game);
 
 int     init_player(t_game *game);
+int		init_ray(t_game *game);
 void    update_player_position(void *param);
 void    render_player(t_game *game);
 int     check_collision(t_game *game, int new_x, int new_y);
@@ -78,5 +80,7 @@ int	get_width(int fd);
 
 void	free_texture(t_game *game);
 void	free_cub(char **cub_file);
+
+void	draw_ray(void *param);
 
 #endif
