@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 17:24:25 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/19 17:49:13 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/23 17:25:57 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,23 @@ void	free_texture(t_game *game)
 	game->text_so = NULL;
 	game->text_we = NULL;
 	game->text_ea = NULL;
+}
+
+void	free_map(t_game *game)
+{
+	int	i;
+
+	i = 0;
+	if (game->map && game->map[i])
+	{
+		while (game->map[i])
+		{
+			free(game->map[i]);
+			i++;
+		}
+		if (game->map)
+			free(game->map);
+	}
 }
 
 void	free_cub(char **cub_file)

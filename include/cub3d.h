@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/22 21:34:08 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/23 17:14:58 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ int	choose_texture_color(char *line, int *x, t_game *game);
 int	get_height(int fd);
 int	get_width(int fd);
 
+// free_functions.c
 void	free_texture(t_game *game);
+void	free_map(t_game *game);
 void	free_cub(char **cub_file);
 
 

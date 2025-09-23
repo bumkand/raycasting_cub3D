@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 18:06:08 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/22 21:33:46 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/23 17:22:33 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ int	main(void)
 	game.text_ea = NULL;
 	game.color_f[0] = -1;
 	game.color_c[0] = -1;
+	game.map = NULL;
 	if (init_data(&game))
 	{
 		free_texture(&game);
@@ -122,5 +123,6 @@ int	main(void)
     //	return (1);
 	//game_loop(&game);
 	free_texture(&game);
+	free_map(&game);
 	return (0);
 }
