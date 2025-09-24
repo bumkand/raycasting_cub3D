@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:17:10 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/24 17:36:40 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/24 22:31:34 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,45 +75,50 @@ char	*ft_strdup(const char *s)
 	return (line);
 }
 
-int	init_game_map(char **cub_map, int start, t_game *game)
+int	check_count_lines(char **cub_map, int *end, int *i)
+{
+	while (cub_map[*end])
+	{
+		if (check_free_line(cub_map[*end]))
+		{
+			break ;
+		}
+		(*end)++;
+	}
+	if (cub_map[*end] && check_free_line(cub_map[*end]))
+	{
+		(*i) = *end;
+		while (cub_map[*i])
+		{
+			if (check_free_line(cub_map[*i]) == 0)
+				return (printf("Chars under the map\n"), 1);
+			(*i)++;
+		}
+	}
+	return (0);
+}
+
+int	check_count_width(char **cub_map, int *len, t_game *game, int *i)
 {
 	int	end;
-	int	len;
-	int	i;
 
-	end = start;
-	while (cub_map[end])
+	end = *len;
+	while (*i < end)
 	{
-		if (check_free_line(cub_map[end]))
-		{
+		if (check_free_line(cub_map[*i]))
 			break ;
-		}
-		end++;
+		*len = count_length(cub_map[*i]);
+		if (*len > game->width)
+			game->width = *len;
+		(*i)++;
 	}
-	if (cub_map[end] && check_free_line(cub_map[end]))
-	{
-		i = end;
-		while (cub_map[i])
-		{
-			if (check_free_line(cub_map[i]) == 0)
-				return (printf("Chars under the map\n"), 1);
-			i++;
-		}
-	}
-	game->height = end - start;
-	i = start;
-	game->width = 0;
-	while (i < end)
-	{
-		if (check_free_line(cub_map[i]))
-		{
-			break ;
-		}
-		len = count_length(cub_map[i]);
-		if (len > game->width)
-			game->width = len;
-		i++;
-	}
+	return (0);
+}
+
+int	alloc_map(t_game *game, char **cub_map, int i, int start)
+{
+	int	end;
+
 	game->map = malloc((game->height + 1) * sizeof(char *));
 	if (!game->map)
 		return (1);
@@ -138,6 +143,54 @@ int	init_game_map(char **cub_map, int start, t_game *game)
 	return (0);
 }
 
+int	init_game_map(char **cub_map, int start, t_game *game)
+{
+	int	end;
+	int	len;
+	int	i;
+
+	end = start;
+	if (check_count_lines(cub_map, &end, &i))
+		return (1);
+	game->height = end - start;
+	i = start;
+	game->width = 0;
+	len = end;
+	if (check_count_width(cub_map, &len, game, &i))
+		return (1);
+	if (alloc_map(game, cub_map, i, start))
+		return (1);
+	return (0);
+}
+
+int	map_text_color(char **cub_file, int *y, t_game *game)
+{
+	if (check_free_line(cub_file[*y]))
+		return ((*y)++, 0);
+	if (cub_file[*y] && game->color_c[0] >= 0 && game->color_f[0] >= 0)
+	{
+		if (init_game_map(cub_file, *y, game))
+			return (printf("Map init error\n"),
+				free_cub(cub_file), free_texture(game), 1);
+	}
+	while (cub_file[*y] && game->color_c[0] >= 0 && game->color_f[0] >= 0)
+	{
+		if (check_map_char(cub_file[*y]))
+			return (free_cub(cub_file), free_texture(game), free_map(game), 1);
+		if (check_free_line(cub_file[*y]))
+		{
+			(*y)++;
+			break ;
+		}
+		(*y)++;
+	}
+	if (cub_file[*y] && init_texture_color(cub_file[*y], game))
+		return (free_cub(cub_file), 1);
+	if (cub_file[*y])
+		(*y)++;
+	return (0);
+}
+
 int	init_data(t_game *game)
 {
 	int		fd;
@@ -152,33 +205,8 @@ int	init_data(t_game *game)
 	y = 0;
 	while (cub_file[y])
 	{
-		if (check_free_line(cub_file[y]))
-		{
-			y++;
-			continue ;
-		}
-		if (cub_file[y] && game->color_c[0] >= 0 && game->color_f[0] >= 0)
-		{
-			if (init_game_map(cub_file, y, game))
-				return (printf("Map init error\n"), free_cub(cub_file), free_texture(game), 1);
-		}
-		while (cub_file[y] && game->color_c[0] >= 0 && game->color_f[0] >= 0)
-		{
-			if (check_map_char(cub_file[y]))
-				return (free_cub(cub_file), free_texture(game), free_map(game), 1);
-			if (check_free_line(cub_file[y]))
-			{
-				y++;
-				break ;
-			}
-			//printf("%s\n", cub_file[y]);
-			y++;
-		}
-		//printf("%s\n", cub_file[y]);
-		if (cub_file[y] && init_texture_color(cub_file[y], game))
-			return (free_cub(cub_file), 1);
-		if (cub_file[y])
-			y++;
+		if (map_text_color(cub_file, &y, game))
+			return (1);
 	}
 	printf("NO texture = %s\nSO texture = %s\nWE texture = %s\nEA texture = %s\n", game->text_no, game->text_so, game->text_we, game->text_ea);
 	printf("F color = %i,%i,%i\nC color = %i,%i,%i\n", game->color_f[0], game->color_f[1], game->color_f[2], game->color_c[0], game->color_c[1], game->color_c[2]);
