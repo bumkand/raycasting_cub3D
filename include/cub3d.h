@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/23 17:14:58 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/24 17:54:41 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,24 @@ void 	game_loop(t_game *game);
 
 int	init_data(t_game *game);
 
+// cub_file.c
 int	get_cub_file(char ***cub_file, int fd, char *line);
 
+int	init_texture_color(char *line, t_game *game);
 int	choose_texture_color(char *line, int *x, t_game *game);
 
 
 int	get_height(int fd);
 int	get_width(int fd);
+
+// init_texture.c
+int	texture_no_so(char *line, int *x, t_game *game);
+int	texture_we_ea(char *line, int *x, t_game *game);
+int	check_order_texture(char *text_1, char *text_2);
+
+// init_color.c
+int color_c_f(char *line, int *x, t_game *game);
+int	check_order_color(t_game *game, int i);
 
 // free_functions.c
 void	free_texture(t_game *game);

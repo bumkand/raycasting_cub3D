@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:17:10 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/23 20:43:21 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/24 17:36:40 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,6 @@ int	check_map_char(char *line)
 		if (count > 1)
 			return (printf("More than 1 starting position\n"), 1);
 		line++;
-	}
-	return (0);
-}
-
-int	init_texture_color_map(char *line, t_game *game)
-{
-	int	x;
-
-	x = 0;
-	while (line[x] != '\n' && line[x] != '\0')
-	{
-		while (line[x] == ' ')
-			x++;
-		if (line[x] >= 9 && line[x] <= 13)
-		{
-			free_texture(game);
-			return (printf("Whitespace in file\n"), 1);
-		}
-		if (choose_texture_color(line, &x, game))
-			return (free_texture(game), 1);
-		while (line[x] != '\0' && line[x] != '\n')
-			x++;
 	}
 	return (0);
 }
@@ -197,7 +175,7 @@ int	init_data(t_game *game)
 			y++;
 		}
 		//printf("%s\n", cub_file[y]);
-		if (cub_file[y] && init_texture_color_map(cub_file[y], game))
+		if (cub_file[y] && init_texture_color(cub_file[y], game))
 			return (free_cub(cub_file), 1);
 		if (cub_file[y])
 			y++;
