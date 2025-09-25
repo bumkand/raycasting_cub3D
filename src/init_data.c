@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:17:10 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/20 21:39:34 by marcel           ###   ########.fr       */
+/*   Updated: 2025/09/20 22:11:23 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,40 +42,108 @@ int	fill_texture(char *line, int i, char **texture)
 	return (0);
 }
 
-int	check_order(char *text_1, char *text_2)
+long	ft_atoi(const char *nptr, int *i)
+{
+	static int	j;
+	long		store;
+
+	store = 0;
+	j++;
+	if (!(nptr[*i] >= '0' && nptr[*i] <= '9'))
+		return (-1);
+	while ((unsigned char)nptr[*i] >= '0' && (unsigned char)nptr[*i] <= '9')
+	{
+		store = store * 10 + ((unsigned char)nptr[*i] - 48);
+		(*i)++;
+	}
+	if (nptr[*i] == ',' && j < 3)
+		(*i)++;
+	while (j == 3 && nptr[*i] != '\n' && nptr[*i] != '\0')
+	{
+		if (nptr[*i] != ' ')
+			return (-1);
+		(*i)++;
+	}
+	if (j == 3)
+		j = 0;
+	return (store);
+}
+
+int	fill_color(char *line, int i, int color[])
+{
+	int	j;
+
+	while (line[i] == ' ')
+		i++;
+	if (line[i] >= 9 && line[i] <= 13)
+		return (printf("Whitespace if file .cub\n"), 1);
+	j = 0;
+	while (line[i] && j < 3)
+	{
+		color[j] = ft_atoi(line, &i);
+		if (color[j] < 0 || color[j] > 255)
+			return (1);
+		j++;
+	}
+	return (0);
+}
+
+int	check_order_texture(char *text_1, char *text_2)
 {
 	if (text_1 && text_2)
 		return (1);
 	return (0);
 }
 
-int	choose_texture(char *line, int *x, t_game *game)
+int	check_order_color(t_game *game, int i)
+{
+	if (i == 1 && game->color_f[0] >= 0 && game->color_c[0] >= 0)
+		return (1);
+	if (i == 2 && game->color_c[0] >= 0 && game->color_f[0] < 0)
+		return (1);
+	if (i == 3 && game->text_ea && game->color_f[0] >= 0)
+		return (1);
+	return (0);	
+}
+
+int	choose_texture_color(char *line, int *x, t_game *game)
 {
 	if (line[*x] == 'N' && line[*x + 1] && line[*x + 1] == 'O')
 	{
 		(*x) += 2;
-		if (fill_texture(line, *x, &game->text_no) || check_order(game->text_no, game->text_so))
+		if (fill_texture(line, *x, &game->text_no) || check_order_texture(game->text_no, game->text_so))
 			return (printf("Fill texture error\n"), 1);
 	}
 	else if (line[*x] == 'S' && line[*x + 1] && line[*x + 1] == 'O')
 	{
 		(*x) += 2;
-		if (fill_texture(line, *x, &game->text_so) || check_order(game->text_so, game->text_we))
+		if (fill_texture(line, *x, &game->text_so) || check_order_texture(game->text_so, game->text_we))
 			return (printf("Fill texture error\n"), 1);
 	}
 	else if (line[*x] == 'W' && line[*x + 1] && line[*x + 1] == 'E')
 	{
 		(*x) += 2;
-		if (fill_texture(line, *x, &game->text_we) || check_order(game->text_we, game->text_ea))
+		if (fill_texture(line, *x, &game->text_we) || check_order_texture(game->text_we, game->text_ea))
 			return (printf("Fill texture error\n"), 1);
 	}
 	else if (line[*x] == 'E' && line[*x + 1] && line[*x + 1] == 'A')
 	{
 		(*x) += 2;
-		if (fill_texture(line, *x, &game->text_ea))
+		if (fill_texture(line, *x, &game->text_ea) || check_order_color(game, 3))
 			return (printf("Fill texture error\n"), 1);
 	}
-	//else if (line[*x] == 'F' || check_order(game->text_ea, game->color_f[0]))
+	else if (line[*x] == 'F')
+	{
+		(*x) += 1;
+		if (fill_color(line, *x, game->color_f) || check_order_color(game, 1))
+			return (printf("Fill color error\n"), 1);
+	}
+	else if (line[*x] == 'C')
+	{
+		(*x) += 1;
+		if (fill_color(line, *x, game->color_c) || check_order_color(game, 2))
+			return (printf("Fill color error\n"), 1);
+	}
 	return (0);
 }
 
@@ -93,7 +161,7 @@ int	init_texture_color_map(char *line, t_game *game)
 			free_texture(game);
 			return (printf("Whitespace in file\n"), 1);
 		}
-		if (choose_texture(line, &x, game))
+		if (choose_texture_color(line, &x, game))
 			return (free_texture(game), 1);
 		if (line[x] != '\0' && line[x] != '\n')
 			x++;
@@ -125,6 +193,7 @@ int	init_data(t_game *game, int fd)
 		y++;
 	}
 	printf("NO texture = %s\nSO texture = %s\nWE texture = %s\nEA texture = %s\n", game->text_no, game->text_so, game->text_we, game->text_ea);
+	printf("F color = %i,%i,%i\nC color = %i,%i,%i\n", game->color_f[0], game->color_f[1], game->color_f[2], game->color_c[0], game->color_c[1], game->color_c[2]);
 	fd = open("maps/valid_map_1.cub", O_RDONLY);
 	game->height = get_height(fd);
 	close(fd);

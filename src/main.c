@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 18:06:08 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/20 21:42:07 by marcel           ###   ########.fr       */
+/*   Updated: 2025/09/20 21:59:11 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,8 @@ int	main(void)
 	game.text_so = NULL;
 	game.text_we = NULL;
 	game.text_ea = NULL;
-	game.color_c[0] = -1;
 	game.color_f[0] = -1;
+	game.color_c[0] = -1;
 	if (init_data(&game, fd))
 	{
 		free_texture(&game);
