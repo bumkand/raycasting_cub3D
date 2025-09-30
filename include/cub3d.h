@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/24 17:54:41 by jakand           ###   ########.fr       */
+/*   Updated: 2025/09/30 19:45:47 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef struct s_game
 	char	**map;
 	int		width;
 	int		height;
+	int		start_x;			// Starting position width
+	int		start_y;			// Starting position height
 	char	*text_no;			// Texture North
 	char	*text_so;			// Texture South
 	char	*text_we;			// Texture West
@@ -86,6 +88,22 @@ int	check_order_texture(char *text_1, char *text_2);
 // init_color.c
 int color_c_f(char *line, int *x, t_game *game);
 int	check_order_color(t_game *game, int i);
+
+// init_map.c
+int	init_game_map(char **cub_map, int start, t_game *game);
+
+// map_gamebility.c
+int	check_gamebility(char **map_copy, t_game *game);
+void	find_start_position(t_game *game);
+char	**copy_of_map(t_game *game);
+
+// map_utils.c
+char	*ft_strdup(const char *s);
+int	count_length(const char *s);
+int	check_free_line(char *line);
+char	*ft_strdup_with_spaces(const char *s, t_game *game);
+
+
 
 // free_functions.c
 void	free_texture(t_game *game);
