@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 18:06:08 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/23 17:22:33 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/01 17:26:47 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,32 +81,8 @@ int	get_height(int fd)
 
 int	main(void)
 {
-	//char	*line;
-	//int		fd;
-	//int		i;
 	t_game	game;
 
-	//fd = open("maps/valid_map_1.cub", O_RDONLY);
-	//if (fd < 0)
-	//	return (printf("fd error\n"), 1);
-	//i = 0;
-	//while (1)
-	//{
-	//	line = get_next_line(fd);
-	//	if (i > 7 && line && check_map_char(line))
-	//	{
-	//		free(line);
-	//		line = NULL;
-	//		break ;
-	//	}
-	//	if (!line)
-	//		break ;
-	//	printf("%s", line);
-	//	free(line);
-	//	line = NULL;
-	//	i++;
-	//}
-	//close(fd);
 	game.text_no = NULL;
 	game.text_so = NULL;
 	game.text_we = NULL;
