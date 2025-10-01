@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 18:06:08 by jakand            #+#    #+#             */
 /*   Updated: 2025/09/23 17:22:33 by jakand           ###   ########.fr       */
@@ -119,9 +119,9 @@ int	main(void)
 		free_texture(&game);
 		return (1);
 	}
-	//if (init_game(&game) || init_player(&game))
-    //	return (1);
-	//game_loop(&game);
+	if (init_game(&game) || init_player(&game))
+		return (1);
+	game_loop(&game);
 	free_texture(&game);
 	free_map(&game);
 	return (0);
