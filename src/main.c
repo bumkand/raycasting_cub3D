@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 18:06:08 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/01 17:26:47 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/01 20:54:55 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	main(void)
 		free_texture(&game);
 		return (1);
 	}
-	if (init_game(&game) || init_player(&game))
+	if (init_game(&game))
 		return (1);
 	game_loop(&game);
 	free_texture(&game);
