@@ -6,19 +6,13 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/30 19:45:47 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/02 14:39:33 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# define BUFFER_SIZE 1
-
-# define WIDTH 850
-# define HEIGHT 550
-
-# define MOVE_SPEED 5
 
 # include "MLX42/MLX42.h"
 # include <stdio.h>
@@ -28,29 +22,43 @@
 # include <unistd.h>
 # include <math.h>
 
+# define BUFFER_SIZE 1
+# define WIDTH 1024          // Šířka okna
+# define HEIGHT 768           // Výška okna
+# define TILE_SIZE 32 // Velikost jednoho čtverečku mapy v pixelech
+# define PLAYER_SPEED 0.1
+# define ROTATION_SPEED 0.05
+
+typedef struct s_player
+{
+    double  pos_x;      // Pozice v mapových jednotkách
+    double  pos_y;
+    double  dir_x;      // Směrový vektor
+    double  dir_y;
+    double  plane_x;    // Vektor kamery
+    double  plane_y;
+}   t_player;
+
 typedef struct s_game
 {
 	mlx_t			*mlx;
-    mlx_image_t		*player_img;
-
-	// Player position (in pixel coordinates for now)
-    int             player_x;
-    int             player_y;
-    double          player_angle;
-	mlx_image_t		*ray_img;
+    mlx_image_t		*game_img; // framebuffer
 
 	// Map data
 	char	**map;
 	int		width;
 	int		height;
-	int		start_x;			// Starting position width
-	int		start_y;			// Starting position height
+	// int		start_x;			// Starting position width - muzeme smazat
+	// int		start_y;			// Starting position height - muzeme smazat
 	char	*text_no;			// Texture North
 	char	*text_so;			// Texture South
 	char	*text_we;			// Texture West
 	char	*text_ea;			// Texture East
 	int		color_f[3];			// RGB Floor
 	int		color_c[3];			// RGB Ceiling
+
+	t_player    player;       // Vnořená struktura pro hráče
+	
 }	t_game;
 
 
@@ -64,11 +72,6 @@ char	*ft_strchr(const char *s, int c);
 
 int		init_game(t_game *game);
 
-int     init_player(t_game *game);
-int		init_ray(t_game *game);
-void    update_player_position(void *param);
-void    render_player(t_game *game);
-int     check_collision(t_game *game, int new_x, int new_y);
 
 // game.c
 void 	game_loop(t_game *game);
