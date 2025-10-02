@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/02 14:39:33 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/02 15:26:02 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ typedef struct s_game
 	char	**map;
 	int		width;
 	int		height;
-	// int		start_x;			// Starting position width - muzeme smazat
-	// int		start_y;			// Starting position height - muzeme smazat
 	char	*text_no;			// Texture North
 	char	*text_so;			// Texture South
 	char	*text_we;			// Texture West
@@ -75,6 +73,9 @@ int		init_game(t_game *game);
 
 // game.c
 void 	game_loop(t_game *game);
+
+// player.c
+void    update_player_position(void *param);
 
 
 int	init_data(t_game *game);
