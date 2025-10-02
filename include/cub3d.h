@@ -15,6 +15,7 @@
 
 
 # include "MLX42/MLX42.h"
+# include "libft.h" 
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
@@ -22,7 +23,6 @@
 # include <unistd.h>
 # include <math.h>
 
-# define BUFFER_SIZE 1
 # define WIDTH 1024          // Šířka okna
 # define HEIGHT 768           // Výška okna
 # define TILE_SIZE 32 // Velikost jednoho čtverečku mapy v pixelech
@@ -59,23 +59,20 @@ typedef struct s_game
 	
 }	t_game;
 
-
-// Get Next Line Functions
-char	*get_next_line(int fd);
-void	*ft_calloc(size_t nmemb, size_t size);
-char	*ft_free_join(char *buffer, char *line);
-char	*ft_strjoin(char *s1, char *s2);
-size_t	ft_strlen(const char *s);
-char	*ft_strchr(const char *s, int c);
-
-int		init_game(t_game *game);
-
+// error.c
+int 	ft_error(const char *message);
 
 // game.c
 void 	game_loop(t_game *game);
 
+// init.c
+int		init_game(t_game *game);
 
-int	init_data(t_game *game);
+// player.c
+void    update_player_position(void *param);
+int		check_collision(t_game *game, double new_x, double new_y);
+
+int	init_data(t_game *game, char *map_path);
 
 // cub_file.c
 int	get_cub_file(char ***cub_file, int fd, char *line);
@@ -100,7 +97,7 @@ int	check_order_color(t_game *game, int i);
 int	init_game_map(char **cub_map, int start, t_game *game);
 
 // map_gamebility.c
-int	check_gamebility(char **map_copy, t_game *game);
+int		check_gamebility(char **map_copy, t_game *game);
 void	find_start_position(t_game *game);
 char	**copy_of_map(t_game *game);
 

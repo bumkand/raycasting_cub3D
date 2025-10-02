@@ -6,11 +6,11 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 16:40:06 by jaandras          #+#    #+#             */
-/*   Updated: 2025/09/17 21:31:48 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/02 21:23:59 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
 char	*ft_next_line(char *buffer)
 {

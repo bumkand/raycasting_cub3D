@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 18:06:08 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/02 20:07:22 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/02 22:06:37 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,23 @@ void	init_struct(t_game *game)
 	game->map = NULL;
 }
 
-int	main(void)
+int main(int argc, char **argv)
 {
 	t_game	game;
 
+	if (argc != 2)
+        return (ft_error("Usage: ./cub3D maps/map_file.cub"));
+	
 	init_struct(&game);
-	if (init_data(&game))
+	if (init_data(&game, argv[1]))
 	{
 		free_texture(&game);
 		free_map(&game);
 		return (1);
 	}
-	//if (init_game(&game))
-	//	return (1);
-	//game_loop(&game);
+	if (init_game(&game))
+		return (1);
+	game_loop(&game);
 	free_texture(&game);
 	free_map(&game);
 	return (0);
