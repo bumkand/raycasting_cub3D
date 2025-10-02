@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:17:10 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/30 20:31:18 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/02 21:48:35 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,19 @@ int	map_gamebility(t_game *game)
 	return (0);
 }
 
-int	init_data(t_game *game)
+int	init_data(t_game *game, char *map_path)
 {
 	int		fd;
 	int		y;
 	char	*line;
 	char	**cub_file;
 
-	fd = open("maps/valid_map_1.cub", O_RDONLY);
+	fd = open(map_path, O_RDONLY);
+	if (fd == -1)
+        return (ft_error("Could not open map file"));
 	line = get_next_line(fd);
 	if (get_cub_file(&cub_file, fd, line))
-		return (printf(".cub File Array Error\n"), 1);
+		return (ft_error(".cub File Array Error"));
 	y = 0;
 	while (cub_file[y])
 	{

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init_color.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:38:22 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/24 17:47:43 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/02 21:37:26 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-long	ft_atoi(const char *nptr, int *i)
+static long	parse_rgb_value(const char *nptr, int *i)
 {
 	static int	j;
 	long		store;
@@ -50,7 +50,7 @@ int	fill_color(char *line, int i, int color[])
 	j = 0;
 	while (line[i] && j < 3)
 	{
-		color[j] = ft_atoi(line, &i);
+		color[j] = parse_rgb_value(line, &i);
 		if (color[j] < 0 || color[j] > 255)
 			return (1);
 		j++;

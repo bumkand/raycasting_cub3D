@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmravec <mmravec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/17 07:44:19 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/02 21:40:01 by marcel           ###   ########.fr       */
+/*   Created: 2024/08/15 09:23:36 by mmravec           #+#    #+#             */
+/*   Updated: 2024/09/16 20:44:12 by mmravec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-int init_game(t_game *game)
+char	*ft_strdup(const char *s1)
 {
-    if (!(game->mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
+	char	*copy;
+	int		i;
+
+	i = 0;
+	copy = (char *) malloc((ft_strlen(s1) + 1) * sizeof(char));
+	if (!copy)
+		return (NULL);
+	while (s1[i] != '\0')
 	{
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
+		copy[i] = s1[i];
+		i++;
 	}
-    return (EXIT_SUCCESS);
+	copy[i] = '\0';
+	return (copy);
 }

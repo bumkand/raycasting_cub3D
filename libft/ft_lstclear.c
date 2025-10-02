@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmravec <mmravec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/17 07:44:19 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/02 21:40:01 by marcel           ###   ########.fr       */
+/*   Created: 2024/09/12 15:13:52 by mmravec           #+#    #+#             */
+/*   Updated: 2024/09/12 16:28:36 by mmravec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-int init_game(t_game *game)
+void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
-    if (!(game->mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
+	t_list	*temp;
+
+	if (!lst)
+		return ;
+	while (*lst)
 	{
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
+		temp = (*lst)->next;
+		ft_lstdelone(*lst, del);
+		*lst = temp;
 	}
-    return (EXIT_SUCCESS);
+	*lst = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 20:56:08 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/02 16:40:13 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/02 20:18:32 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void update_player_position(void *param)
     }
 }
 
-static int check_collision(t_game *game, double new_x, double new_y)
+int check_collision(t_game *game, double new_x, double new_y)
 {
     (void)  game;
     // Basic boundary checking (window bounds for now)

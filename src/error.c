@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/17 07:44:19 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/02 21:40:01 by marcel           ###   ########.fr       */
+/*   Created: 2025/10/02 21:12:53 by marcel            #+#    #+#             */
+/*   Updated: 2025/10/02 21:13:16 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int init_game(t_game *game)
+int ft_error(const char *message)
 {
-    if (!(game->mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
-	{
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-    return (EXIT_SUCCESS);
+    ft_putstr_fd("Error\n", 2);
+    ft_putstr_fd((char *)message, 2);
+    ft_putstr_fd("\n", 2);
+    return (1);
 }

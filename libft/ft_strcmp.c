@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/17 07:44:19 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/02 21:40:01 by marcel           ###   ########.fr       */
+/*   Created: 2025/05/05 01:22:53 by marcel            #+#    #+#             */
+/*   Updated: 2025/06/21 23:55:34 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-int init_game(t_game *game)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-    if (!(game->mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
+	size_t	i;
+
+	i = 0;
+	if (s1 == NULL || s2 == NULL)
 	{
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
+		if (s1 == NULL && s2 == NULL)
+			return (0);
+		if (s1 == NULL)
+			return (-1);
+		return (1);
 	}
-    return (EXIT_SUCCESS);
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return (((unsigned char)s1[i]) - (unsigned char)s2[i]);
 }

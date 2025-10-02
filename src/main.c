@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 18:06:08 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/01 20:54:55 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/02 21:50:53 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,12 @@ int	get_height(int fd)
 	return (y);
 }
 
-int	main(void)
+int main(int argc, char **argv)
 {
 	t_game	game;
-
+	
+    if (argc != 2)
+        return (ft_error("Usage: ./cub3D maps/map_file.cub"));
 	game.text_no = NULL;
 	game.text_so = NULL;
 	game.text_we = NULL;
@@ -90,7 +92,7 @@ int	main(void)
 	game.color_f[0] = -1;
 	game.color_c[0] = -1;
 	game.map = NULL;
-	if (init_data(&game))
+	if (init_data(&game, argv[1]))
 	{
 		free_texture(&game);
 		return (1);
