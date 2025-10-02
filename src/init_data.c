@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:17:10 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/02 20:07:15 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/02 22:07:02 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	check_struct(t_game *game)
 	return (0);
 }
 
-int	init_data(t_game *game, char *map_path))
+int	init_data(t_game *game, char *map_path)
 {
 	int		fd;
 	int		y;
