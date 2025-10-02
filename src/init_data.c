@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:17:10 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/02 21:48:35 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/02 20:07:15 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,24 @@ int	map_gamebility(t_game *game)
 	return (0);
 }
 
-int	init_data(t_game *game, char *map_path)
+int	check_struct(t_game *game)
+{
+	if (!game->text_no
+		|| !game->text_so
+		|| !game->text_we
+		|| !game->text_ea
+		|| game->color_c[0] == -1
+		|| game->color_c[1] == -1
+		|| game->color_c[2] == -1
+		|| game->color_f[0] == -1
+		|| game->color_f[1] == -1
+		|| game->color_f[2] == -1
+		|| !game->map)
+		return (1);
+	return (0);
+}
+
+int	init_data(t_game *game, char *map_path))
 {
 	int		fd;
 	int		y;
@@ -108,6 +125,8 @@ int	init_data(t_game *game, char *map_path)
 	//}
 	free_cub(cub_file);
 	if (game->map && map_gamebility(game))
-		return (free_map(game), 1);
+		return (1);
+	if (check_struct(game))
+		return (printf("Problem with .cub file\n"), 1);
 	return (0);
 }
