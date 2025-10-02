@@ -30,9 +30,9 @@
 
 # define WIDTH 1024          // Šířka okna
 # define HEIGHT 768           // Výška okna
-#define TILE_SIZE 32 // Velikost jednoho čtverečku mapy v pixelech
-#define PLAYER_SPEED 0.1
-#define ROTATION_SPEED 0.05
+# define TILE_SIZE 32 // Velikost jednoho čtverečku mapy v pixelech
+# define PLAYER_SPEED 0.1
+# define ROTATION_SPEED 0.05
 
 typedef struct s_player
 {
