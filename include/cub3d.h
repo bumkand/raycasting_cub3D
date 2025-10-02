@@ -6,19 +6,13 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/01 20:57:59 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/02 14:39:33 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# define BUFFER_SIZE 1
-
-# define WIDTH 850
-# define HEIGHT 550
-
-# define MOVE_SPEED 5
 
 # include "MLX42/MLX42.h"
 # include <stdio.h>
@@ -28,11 +22,12 @@
 # include <unistd.h>
 # include <math.h>
 
+# define BUFFER_SIZE 1
 # define WIDTH 1024          // Šířka okna
 # define HEIGHT 768           // Výška okna
-#define TILE_SIZE 32 // Velikost jednoho čtverečku mapy v pixelech
-#define PLAYER_SPEED 0.1
-#define ROTATION_SPEED 0.05
+# define TILE_SIZE 32 // Velikost jednoho čtverečku mapy v pixelech
+# define PLAYER_SPEED 0.1
+# define ROTATION_SPEED 0.05
 
 typedef struct s_player
 {
@@ -53,8 +48,8 @@ typedef struct s_game
 	char	**map;
 	int		width;
 	int		height;
-	int		start_x;			// Starting position width - muzeme smazat
-	int		start_y;			// Starting position height - muzeme smazat
+	// int		start_x;			// Starting position width - muzeme smazat
+	// int		start_y;			// Starting position height - muzeme smazat
 	char	*text_no;			// Texture North
 	char	*text_so;			// Texture South
 	char	*text_we;			// Texture West

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_gamebility.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 19:43:04 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/30 19:43:15 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/02 14:41:15 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void	find_start_position(t_game *game)
 			if (game->map[y][x] == 'N' || game->map[y][x] == 'S'
 				|| game->map[y][x] == 'W' || game->map[y][x] == 'E')
 			{
-				game->start_x = x;
-				game->start_y = y;
+				game->player.pos_x = x;
+				game->player.pos_y = y;
 				return ;
 			}
 			x++;
