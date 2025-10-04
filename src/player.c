@@ -6,11 +6,32 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 20:56:08 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/03 11:18:16 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/04 09:48:06 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+// Vrací 1, pokud je na souřadnicích zeď, jinak 0
+int is_wall(t_game *game, double x, double y)
+{
+    int map_x;
+    int map_y;
+
+    // Převedeme double souřadnice na indexy v poli
+    map_x = (int)x;
+    map_y = (int)y;
+
+    // Bezpečnostní kontrola, abychom se nepodívali mimo mapu
+    if (map_x < 0 || map_x >= game->width || map_y < 0 || map_y >= game->height)
+        return (1); // Chovej se k prostoru mimo mapu jako ke zdi
+
+    // Kontrola samotného znaku v mapě
+    if (game->map[map_y][map_x] == '1')
+        return (1);
+        
+    return (0);
+}
 
 void handle_player_input(t_game *game)
 {
@@ -64,11 +85,21 @@ void handle_player_input(t_game *game)
         game->player.plane_y = old_plane_x * sin(ROTATION_SPEED) + game->player.plane_y * cos(ROTATION_SPEED);
     }
         
-
-    // Check if movement is valid before applying
-    if (check_collision(game, new_x, new_y))
+    // Zkontroluj kolizi pro osu X
+    if (!is_wall(game, new_x + COLLISION_RADIUS, game->player.pos_y + COLLISION_RADIUS) && \
+        !is_wall(game, new_x + COLLISION_RADIUS, game->player.pos_y - COLLISION_RADIUS) && \
+        !is_wall(game, new_x - COLLISION_RADIUS, game->player.pos_y + COLLISION_RADIUS) && \
+        !is_wall(game, new_x - COLLISION_RADIUS, game->player.pos_y - COLLISION_RADIUS))
     {
         game->player.pos_x = new_x;
+    }
+
+    // Zkontroluj kolizi pro osu Y
+    if (!is_wall(game, game->player.pos_x + COLLISION_RADIUS, new_y + COLLISION_RADIUS) && \
+        !is_wall(game, game->player.pos_x + COLLISION_RADIUS, new_y - COLLISION_RADIUS) && \
+        !is_wall(game, game->player.pos_x - COLLISION_RADIUS, new_y + COLLISION_RADIUS) && \
+        !is_wall(game, game->player.pos_x - COLLISION_RADIUS, new_y - COLLISION_RADIUS))
+    {
         game->player.pos_y = new_y;
     }
 }
@@ -81,7 +112,10 @@ int check_collision(t_game *game, double new_x, double new_y)
         return (0);
     if (new_y < 0 || new_y > (HEIGHT - 32))
         return (0);
-
+    if (new_x < 0 || new_x >= game->width || new_y < 0 || new_y >= game->height)
+        return (0);
+    if (game->map[(int)new_y][(int)new_x] == '1' || game->map[(int)new_y][(int)new_x] == ' ')
+        return (0);
     // TODO: Add map collision when map is ready
     // For now, just check window boundaries
     return (1); // Movement is valid

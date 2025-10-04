@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_file.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:19:03 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/19 16:15:28 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/04 09:54:18 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	get_cub_file(char ***cub_file, int fd, char *line)
 	*cub_file = malloc((height + 1) * sizeof(char *));
 	if (!*cub_file)
 		return (1);
-	fd = open("maps/valid_map_1.cub", O_RDONLY);
+	fd = open((*cub_file)[0], O_RDONLY);
 	line = get_next_line(fd);
 	height = 0;
 	while (line)

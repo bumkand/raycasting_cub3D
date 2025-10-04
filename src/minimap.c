@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:24:40 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/03 11:52:11 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/04 09:27:30 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,15 @@ void draw_square(t_game *game, int start_x, int start_y, int size, int color)
 void draw_player(t_game *game)
 {
     int i;
-    int player_size = 8;
     int player_screen_x = game->player.pos_x * MINIMAP_SCALE;
     int player_screen_y = game->player.pos_y * MINIMAP_SCALE;
     int ray_x;
     int ray_y;
     // Kreslíme čtverec tak, aby jeho střed byl na pozici hráče
-    draw_square(game, player_screen_x - (player_size / 2), 
-                      player_screen_y - (player_size / 2), 
-                      player_size, C_RED);
-    
+    draw_square(game, player_screen_x - (PLAYER_SIZE / 2), 
+                      player_screen_y - (PLAYER_SIZE / 2), 
+                      PLAYER_SIZE, C_RED);
+
     // Paprsek směru teď bude také vycházet ze středu
     i = -1;
     while (++i < 25) {
@@ -70,12 +69,12 @@ void draw_minimap(t_game *game)
         {
             if (game->map[y] && x < (int)ft_strlen(game->map[y]))
             {
-                if (game->map[y][x] == '1')
+                if (game->map[y][x] == '1' || game->map[y][x] == ' ')
                     draw_square(game, x * MINIMAP_SCALE, y * MINIMAP_SCALE, MINIMAP_SCALE,
                         C_WHITE);
                 else if (game->map[y][x] == '0' || game->map[y][x] == 'N' ||
                          game->map[y][x] == 'S' || game->map[y][x] == 'W' ||
-                         game->map[y][x] == 'E' || game->map[y][x] == ' ')
+                         game->map[y][x] == 'E')
                 {
                     draw_square(game, x * MINIMAP_SCALE, y * MINIMAP_SCALE,
                         MINIMAP_SCALE, C_GREY);
