@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:19:03 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/04 09:54:18 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/04 11:26:11 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	lines_length(char ****cub_file, char *line, int height)
 	return (0);
 }
 
-int	get_cub_file(char ***cub_file, int fd, char *line)
+int	get_cub_file(char ***cub_file, int fd, char *line, char *map_path)
 {
 	int	height;
 
@@ -55,7 +55,7 @@ int	get_cub_file(char ***cub_file, int fd, char *line)
 	*cub_file = malloc((height + 1) * sizeof(char *));
 	if (!*cub_file)
 		return (1);
-	fd = open((*cub_file)[0], O_RDONLY);
+	fd = open(map_path, O_RDONLY);
 	line = get_next_line(fd);
 	height = 0;
 	while (line)
