@@ -6,9 +6,20 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 22:53:13 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/04 19:48:01 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/04 22:37:12 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+void cast_rays(t_game *game)
+{
+    int		col;
+    (void)game;
+	
+	col = -1;
+	while (++col < WIDTH)
+	{
+		
+	}
+}

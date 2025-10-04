@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/04 11:26:23 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/04 22:59:12 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,10 @@
 
 # define WIDTH 1024          // Šířka okna
 # define HEIGHT 768           // Výška okna
-# define TILE_SIZE 32 // Velikost jednoho čtverečku mapy v pixelech
-# define MINIMAP_SCALE 16 // Zmenšovací faktor pro minimapu
+# define MINIMAP_TILE_SIZE 8 // Velikost dlaždice minimapy
 # define PLAYER_SPEED 0.1
-# define PLAYER_SIZE 8
-# define COLLISION_RADIUS ( (double)PLAYER_SIZE / (double)TILE_SIZE / 2.0 )
+# define PLAYER_SIZE 4 // Velikost hráče na minimapě v pixelech
+# define COLLISION_RADIUS ( (double)PLAYER_SIZE / (double)MINIMAP_TILE_SIZE / 2.0 )
 # define ROTATION_SPEED 0.05
 
 # define C_BLACK   0x000000FF  // Černá
@@ -85,6 +84,12 @@ void	draw_minimap(t_game *game);
 // player.c
 void	handle_player_input(t_game *game);
 int		check_collision(t_game *game, double new_x, double new_y);
+
+// ray.c
+void    cast_rays(t_game *game);
+
+// render.c
+void draw_floor_and_ceiling(t_game *game);
 
 int	init_data(t_game *game, char *map_path);
 
