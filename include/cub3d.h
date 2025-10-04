@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/02 20:00:08 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/04 11:26:23 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		check_collision(t_game *game, double new_x, double new_y);
 int	init_data(t_game *game, char *map_path);
 
 // cub_file.c
-int	get_cub_file(char ***cub_file, int fd, char *line);
+int	get_cub_file(char ***cub_file, int fd, char *line, char *map_path);
 
 int	init_texture_color(char *line, t_game *game);
 int	choose_texture_color(char *line, int *x, t_game *game);

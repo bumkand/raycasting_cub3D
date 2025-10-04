@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:17:10 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/02 22:07:02 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/04 11:28:14 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	init_data(t_game *game, char *map_path)
 	if (fd == -1)
         return (ft_error("Could not open map file"));
 	line = get_next_line(fd);
-	if (get_cub_file(&cub_file, fd, line))
+	if (get_cub_file(&cub_file, fd, line, map_path))
 		return (ft_error(".cub File Array Error"));
 	y = 0;
 	while (cub_file[y])
