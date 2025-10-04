@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
 /*   Updated: 2025/10/04 11:26:23 by jakand           ###   ########.fr       */
@@ -26,8 +26,17 @@
 # define WIDTH 1024          // Šířka okna
 # define HEIGHT 768           // Výška okna
 # define TILE_SIZE 32 // Velikost jednoho čtverečku mapy v pixelech
+# define MINIMAP_SCALE 16 // Zmenšovací faktor pro minimapu
 # define PLAYER_SPEED 0.1
+# define PLAYER_SIZE 8
+# define COLLISION_RADIUS ( (double)PLAYER_SIZE / (double)TILE_SIZE / 2.0 )
 # define ROTATION_SPEED 0.05
+
+# define C_BLACK   0x000000FF  // Černá
+# define C_WHITE   0xFFFFFFFF  // Bílá
+# define C_RED     0xFF0000FF  // Červená (pro hráče)
+# define C_GREY    0x808080FF  // Šedá (pro podlahu minimapy)
+# define C_GREEN   0x00FF00FF  // Zelená (pro pohled hráče)
 
 typedef struct s_player
 {
@@ -64,12 +73,17 @@ int 	ft_error(const char *message);
 
 // game.c
 void 	game_loop(t_game *game);
+void	game_tick(void *param);
 
 // init.c
 int		init_game(t_game *game);
 
+// minimap.c 
+void	clear_framebuffer(t_game *game);
+void	draw_minimap(t_game *game);
+
 // player.c
-void    update_player_position(void *param);
+void	handle_player_input(t_game *game);
 int		check_collision(t_game *game, double new_x, double new_y);
 
 int	init_data(t_game *game, char *map_path);
