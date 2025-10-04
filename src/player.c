@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 20:56:08 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/04 09:48:06 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/04 19:47:10 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,21 +102,4 @@ void handle_player_input(t_game *game)
     {
         game->player.pos_y = new_y;
     }
-}
-
-int check_collision(t_game *game, double new_x, double new_y)
-{
-    (void)  game;
-    // Basic boundary checking (window bounds for now)
-    if (new_x < 0 || new_x > (WIDTH - 32))
-        return (0);
-    if (new_y < 0 || new_y > (HEIGHT - 32))
-        return (0);
-    if (new_x < 0 || new_x >= game->width || new_y < 0 || new_y >= game->height)
-        return (0);
-    if (game->map[(int)new_y][(int)new_x] == '1' || game->map[(int)new_y][(int)new_x] == ' ')
-        return (0);
-    // TODO: Add map collision when map is ready
-    // For now, just check window boundaries
-    return (1); // Movement is valid
 }
