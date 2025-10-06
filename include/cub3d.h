@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/05 16:10:21 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/06 21:35:30 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ int		check_collision(t_game *game, double new_x, double new_y);
 void    cast_rays(t_game *game);
 
 // render.c
-void draw_floor_and_ceiling(t_game *game);
+int		get_rgba(int r, int g, int b, int a);
+void	draw_floor_and_ceiling(t_game *game);
 
 // init_data.c
 int	init_data(t_game *game, char *map_path);

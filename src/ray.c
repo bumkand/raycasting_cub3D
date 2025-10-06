@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 22:53:13 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/05 16:14:58 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/06 21:32:28 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,14 @@ void cast_rays(t_game *game)
 	double	side_dist_x;
 	double	side_dist_y;
 	int     side; // 0 pro X-stranu, 1 pro Y-stranu
+	double	perp_wall_dist;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
+	double	wall_x;
+	
+	mlx_texture_t *texture;
+	double	texture_x;
 	
 	col = -1;
 	while (++col < WIDTH)
@@ -82,6 +90,58 @@ void cast_rays(t_game *game)
 			if (game->map[map_y][map_x] == '1')
 				break ;
 		}
-		ft_printf("Side: %d\n", side);
+
+		if (side == 0)
+			perp_wall_dist = (map_x - game->player.pos_x + (1 - step_x) / 2) / ray_dir_x;
+		else
+			perp_wall_dist = (map_y - game->player.pos_y + (1 - step_y) / 2) / ray_dir_y;
+
+		line_height = (int)(HEIGHT / perp_wall_dist);
+		draw_start = -line_height / 2 + HEIGHT / 2;
+		if (draw_start < 0)
+			draw_start = 0;
+		draw_end = line_height / 2 + HEIGHT / 2;
+		if (draw_end >= HEIGHT)
+			draw_end = HEIGHT - 1;
+		// Výběr textury na základě směru
+		if (side == 0)	// Svislá stěna
+		{
+			if (ray_dir_x > 0)
+				texture = game->textures.west; 
+			else
+				texture = game->textures.east; 
+		}
+		else // Vodorovná stěna
+		{
+			if (ray_dir_y > 0)
+				texture = game->textures.north; 
+			else
+				texture = game->textures.south; 
+		}
+		// Výpočet přesné pozice zdi
+		if (side == 0) // Svislá stěna
+			wall_x = game->player.pos_y + perp_wall_dist * ray_dir_y;
+		else
+			wall_x = game->player.pos_x + perp_wall_dist * ray_dir_x;
+		wall_x = wall_x - (int)(wall_x);
+		texture_x = (int)(wall_x * (double)(texture->width));
+		
+		double step = 1.0 * texture->height / line_height;
+        double tex_pos = (draw_start - HEIGHT / 2 + line_height / 2) * step;
+        int y = draw_start -1;
+        
+        while (++y <= draw_end)
+        {
+            int tex_y = (int)tex_pos & (texture->height - 1);
+            tex_pos += step;
+            
+            // Získání barvy z textury
+            uint8_t *pixel = &texture->pixels[(tex_y * texture->width + (int)texture_x) * 4];
+            int color = get_rgba(pixel[0], pixel[1], pixel[2], pixel[3]);
+            
+            // Nakreslení pixelu
+            mlx_put_pixel(game->game_img, col, y, color);
+        }
 	}
+	
 }
