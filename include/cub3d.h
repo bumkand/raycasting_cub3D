@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/04 22:59:12 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/05 16:10:21 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,14 @@ typedef struct s_player
     double  plane_y;
 }   t_player;
 
+typedef struct s_texture
+{
+    mlx_texture_t	*north;
+    mlx_texture_t	*south;
+    mlx_texture_t	*west;
+    mlx_texture_t	*east;
+}   t_texture;
+
 typedef struct s_game
 {
 	mlx_t			*mlx;
@@ -60,6 +68,7 @@ typedef struct s_game
 	char	*text_so;			// Texture South
 	char	*text_we;			// Texture West
 	char	*text_ea;			// Texture East
+	t_texture	textures;		// Textures struct
 	int		color_f[3];			// RGB Floor
 	int		color_c[3];			// RGB Ceiling
 
@@ -91,7 +100,9 @@ void    cast_rays(t_game *game);
 // render.c
 void draw_floor_and_ceiling(t_game *game);
 
+// init_data.c
 int	init_data(t_game *game, char *map_path);
+int load_textures(t_game *game);
 
 // cub_file.c
 int	get_cub_file(char ***cub_file, int fd, char *line, char *map_path);

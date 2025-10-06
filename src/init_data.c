@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:17:10 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/04 11:28:14 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/05 16:14:09 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,16 @@ int	init_data(t_game *game, char *map_path)
 		return (1);
 	if (check_struct(game))
 		return (printf("Problem with .cub file\n"), 1);
+	return (0);
+}
+
+int load_textures(t_game *game)
+{
+	game->textures.north = mlx_load_png(game->text_no);
+	game->textures.south = mlx_load_png(game->text_so);
+	game->textures.west = mlx_load_png(game->text_we);
+	game->textures.east = mlx_load_png(game->text_ea);
+	if (!game->textures.north || !game->textures.south || !game->textures.west || !game->textures.east)
+		return (1);
 	return (0);
 }
