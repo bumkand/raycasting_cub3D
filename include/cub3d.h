@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/04 11:26:23 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/06 21:34:21 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,15 @@
 # define C_GREY    0x808080FF  // Šedá (pro podlahu minimapy)
 # define C_GREEN   0x00FF00FF  // Zelená (pro pohled hráče)
 
+typedef struct s_hit
+{
+	int		map_x;
+	int		map_y;
+	int		side;
+	double	dist;
+}	t_hit;
+
+
 typedef struct s_player
 {
     double  pos_x;      // Pozice v mapových jednotkách
@@ -65,7 +74,6 @@ typedef struct s_game
 	int		color_c[3];			// RGB Ceiling
 
 	t_player    player;       // Vnořená struktura pro hráče
-	
 }	t_game;
 
 // error.c
@@ -121,13 +129,14 @@ int	count_length(const char *s);
 int	check_free_line(char *line);
 char	*ft_strdup_with_spaces(const char *s, t_game *game);
 
-
+// raycast.c
+t_hit perform_dda(t_game *game, double ray_dir_x, double ray_dir_y);
 
 // free_functions.c
 void	free_texture(t_game *game);
 void	free_map(t_game *game);
 void	free_cub(char **cub_file);
 
-void	draw_ray(void *param);
+//void	draw_ray(void *param);
 
 #endif
