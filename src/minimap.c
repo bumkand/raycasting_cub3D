@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 22:24:40 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/06 21:33:05 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/07 18:48:22 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	draw_ray(t_game *game, int player_screen_x, int player_screen_y, int r)
     	    mlx_put_pixel(game->game_img, ray_x, ray_y, C_GREEN);
 			i++;
     	}
-		//// vykresli miesto zásahu ako modrý štvorček
+		//// vykresli miesto zásahu ako cerveny štvorček
         //draw_square(game, hit.map_x * MINIMAP_SCALE,
 		//	hit.map_y * MINIMAP_SCALE,
 		//	MINIMAP_SCALE / 2, C_RED);
