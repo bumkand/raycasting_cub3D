@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/07 17:07:35 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/08 18:46:35 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,9 @@ char	*ft_strdup_with_spaces(const char *s, t_game *game);
 
 // raycast.c
 t_hit perform_dda(t_game *game, double ray_dir_x, double ray_dir_y);
+
+// 3d_view.c
+void	draw_3d_view(t_game *game);
 
 // free_functions.c
 void	free_texture(t_game *game);
