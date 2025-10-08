@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 22:53:13 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/07 19:27:56 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/08 21:41:58 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ t_hit perform_dda(t_game *game, double ray_dir_x, double ray_dir_y)
     hit.map_y = map_y;
     hit.side = side;
     if (side == 0)
-        hit.dist = side_dist_x - delta_dist_x;
+        hit.dist = (map_x - game->player.pos_x + (1 - step_x) / 2) / ray_dir_x;
     else
-        hit.dist = side_dist_y - delta_dist_y;
+        hit.dist = (map_y - game->player.pos_y + (1 - step_y) / 2) / ray_dir_y;
 
     return (hit);
 }

@@ -6,11 +6,16 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 16:54:46 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/08 18:57:16 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/08 22:43:13 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+uint32_t	rgb_to_trgb(int t, int r, int g, int b)
+{
+	return ((t & 0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
+}
 
 void	draw_vertical_line(t_game *game, int x, double draw_start, double draw_end, int color)
 {
@@ -20,11 +25,11 @@ void	draw_vertical_line(t_game *game, int x, double draw_start, double draw_end,
 	while (y < HEIGHT)
 	{
 		if (y < draw_start)
-			mlx_put_pixel(game->game_img, x, y, C_GREEN);
-		else if (y >= draw_start && y <= draw_end)
+			mlx_put_pixel(game->game_img, x, y, rgb_to_trgb(255, game->color_f[0], game->color_f[1], game->color_f[2]));
+		else if (y >= draw_start && y < draw_end)
 			mlx_put_pixel(game->game_img, x, y, color);
 		else
-			mlx_put_pixel(game->game_img, x, y, C_RED);
+			mlx_put_pixel(game->game_img, x, y, rgb_to_trgb(255, game->color_c[0], game->color_c[1], game->color_c[2]));
 		y++;
 	}
 }
@@ -53,7 +58,7 @@ void	draw_3d_view(t_game *game)
 		if (draw_start < 0)
 			draw_start = 0;
 		draw_end = (HEIGHT / 2) + (line_height / 2);
-		if (draw_end <= HEIGHT)
+		if (draw_end >= HEIGHT)
 			draw_end = HEIGHT - 1;
 		if (hit.side == 0)
 			color = C_WHITE;
