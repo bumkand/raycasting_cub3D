@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 16:54:46 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/08 22:43:13 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/09 17:12:38 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 uint32_t	rgb_to_trgb(int t, int r, int g, int b)
 {
-	return ((t & 0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
+	return (((t & 0xFF) << 24) | ((r & 0xFF) << 16)
+		| ((g & 0xFF) << 8) | (b & 0xFF));
 }
 
 void	draw_vertical_line(t_game *game, int x, double draw_start, double draw_end, int color)

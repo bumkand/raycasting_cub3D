@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/08 18:46:35 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/09 20:55:23 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,22 @@
 # define C_GREY    0x808080FF  // Šedá (pro podlahu minimapy)
 # define C_GREEN   0x00FF00FF  // Zelená (pro pohled hráče)
 
+typedef struct s_texture
+{
+	mlx_texture_t	*NO;
+	mlx_texture_t	*SO;
+	mlx_texture_t	*WE;
+	mlx_texture_t	*EA;
+}	t_texture;
+
+typedef struct s_image
+{
+	mlx_image_t	*NO;
+	mlx_image_t	*SO;
+	mlx_image_t	*WE;
+	mlx_image_t	*EA;
+}	t_image;
+
 typedef struct s_hit
 {
 	int		map_x;
@@ -59,8 +75,10 @@ typedef struct s_player
 
 typedef struct s_game
 {
-	mlx_t			*mlx;
-    mlx_image_t		*game_img; // framebuffer
+	mlx_t				*mlx;
+    mlx_image_t			*game_img; // framebuffer
+	struct s_texture	*text;
+	struct s_image		*img;
 
 	// Map data
 	char	**map;
