@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 16:54:46 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/09 17:12:38 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/10 17:34:31 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,30 @@ void	draw_vertical_line(t_game *game, int x, double draw_start, double draw_end,
 	}
 }
 
+mlx_texture_t	*choose_texture(t_game *game, t_hit hit, double ray_dir_x, double ray_dir_y)
+{
+	mlx_texture_t	*tex;
+
+	if (hit.side == 0 && ray_dir_x > 0)
+		tex = game->text->EA;
+	else if (hit.side == 0 && ray_dir_x < 0)
+		tex = game->text->WE;
+	else if (hit.side == 1 && ray_dir_y > 0)
+		tex = game->text->SO;
+	else
+		tex = game->text->NO;
+	return (tex);
+}
+
+void	make_wall_texture(t_game *game, t_hit hit, double ray_dir_x, double ray_dir_y)
+{
+	mlx_texture_t	*tex;
+
+	tex = choose_texture(game, hit, ray_dir_x, ray_dir_y);
+
+
+}
+
 void	draw_3d_view(t_game *game)
 {
 	int		x;
@@ -61,11 +85,15 @@ void	draw_3d_view(t_game *game)
 		draw_end = (HEIGHT / 2) + (line_height / 2);
 		if (draw_end >= HEIGHT)
 			draw_end = HEIGHT - 1;
-		if (hit.side == 0)
-			color = C_WHITE;
-		else
-			color = C_GREY;
-		draw_vertical_line(game, x, draw_start, draw_end, color);
+
+		make_wall_texture(game, hit, ray_dir_x, ray_dir_y);
+
+		//if (hit.side == 0)
+		//	color = C_WHITE;
+		//else
+		//	color = C_GREY;
+		//draw_vertical_line(game, x, draw_start, draw_end, color);
+		
 		x++;
 	}
 }
