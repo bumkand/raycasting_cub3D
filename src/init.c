@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:44:19 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/09 21:55:27 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/12 18:17:54 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,44 +21,20 @@ int	get_textures(t_game *game)
 	game->text->SO = mlx_load_png(game->text_so);
 	game->text->WE = mlx_load_png(game->text_we);
 	game->text->EA = mlx_load_png(game->text_ea);
-	return (0);
-}
-
-int	get_image(t_game *game)
-{
-	game->img = ft_calloc(1, sizeof(t_image));
-	if (!game->img)
-		return (1);
-	game->img->NO = mlx_texture_to_image(game->mlx, game->text->NO);
-	game->img->SO = mlx_texture_to_image(game->mlx, game->text->SO);
-	game->img->WE = mlx_texture_to_image(game->mlx, game->text->WE);
-	game->img->EA = mlx_texture_to_image(game->mlx, game->text->EA);
-	if (!game->img->NO || !game->img->SO
-		|| !game->img->WE || !game->img->EA)
+	if (!game->text->NO || !game->text->SO
+		|| !game->text->WE || !game->text->EA)
 	{
-		if (game->img->NO)
+		if (game->text->NO)
 			mlx_delete_texture(game->text->NO);
-		if (game->img->SO)
+		if (game->text->SO)
 			mlx_delete_texture(game->text->SO);
-		if (game->img->WE)
+		if (game->text->WE)
 			mlx_delete_texture(game->text->WE);
-		if (game->img->EA)
+		if (game->text->EA)
 			mlx_delete_texture(game->text->EA);
-		return (free(game->img), 1);
+		return (free(game->text), 1);
 	}
-	mlx_delete_texture(game->text->NO);
-	mlx_delete_texture(game->text->SO);
-	mlx_delete_texture(game->text->WE);
-	mlx_delete_texture(game->text->EA);
 	return (0);
-}
-
-void	free_visual(t_game *game)
-{
-	if (game->img != NULL)
-		free(game->img);
-	if (game->text != NULL)
-		free(game->text);
 }
 
 int init_game(t_game *game)
@@ -86,10 +62,10 @@ int init_game(t_game *game)
         return (ft_error("Failed to display image in window"));
     }
 
-	if (get_textures(game) || get_image(game))
+	if (get_textures(game))
 	{
-		free_visual(game);
-		return (ft_error("Failed to create wall images"));
+		mlx_terminate(game->mlx); // Uklidíme
+		return (ft_error("Failed to save wall textures"));
 	}
     return (EXIT_SUCCESS);
 }

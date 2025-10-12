@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 16:54:46 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/10 17:34:31 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/12 18:10:10 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,52 @@ mlx_texture_t	*choose_texture(t_game *game, t_hit hit, double ray_dir_x, double 
 
 	if (hit.side == 0 && ray_dir_x > 0)
 		tex = game->text->EA;
-	else if (hit.side == 0 && ray_dir_x < 0)
+	if (hit.side == 0 && ray_dir_x < 0)
 		tex = game->text->WE;
-	else if (hit.side == 1 && ray_dir_y > 0)
+	if (hit.side == 1 && ray_dir_y > 0)
 		tex = game->text->SO;
-	else
+	if (hit.side == 1 && ray_dir_y < 0)
 		tex = game->text->NO;
 	return (tex);
 }
 
-void	make_wall_texture(t_game *game, t_hit hit, double ray_dir_x, double ray_dir_y)
+void	make_wall_texture(t_game *game, t_hit hit, double ray_dir_x, double ray_dir_y, double line_height, double draw_start, double draw_end, int x)
 {
 	mlx_texture_t	*tex;
+	double			wall_x;
+	int				tex_x;
+	double			step;
+	double			text_pos;
+	int				y;
+	int				tex_y;
+	uint8_t			*pixel;
+	uint32_t		color;
 
 	tex = choose_texture(game, hit, ray_dir_x, ray_dir_y);
 
+	if (hit.side == 0)
+		wall_x = game->player.pos_y + hit.dist * ray_dir_y;
+	else
+		wall_x = game->player.pos_x + hit.dist * ray_dir_x;
+	wall_x -= floor(wall_x);
+	tex_x = (int)(wall_x * tex->width);
+	if (hit.side == 0 && ray_dir_x > 0)
+		tex_x = tex->width - tex_x - 1;
+	if (hit.side == 1 && ray_dir_y < 0)
+		tex_x = tex->width - tex_x - 1;
 
+	step = 1.0 * tex->height / line_height;
+	text_pos = (draw_start - HEIGHT / 2 + line_height / 2) * step;
+	y = draw_start;
+	while (y < draw_end)
+	{
+		tex_y = (int)text_pos & (tex->height - 1);
+		text_pos += step;
+		pixel = tex->pixels + (tex_y * tex->width + tex_x) * 4;
+		color = (pixel[0] << 24) | (pixel[1] << 16) | (pixel[2] << 8) | pixel[3];
+		mlx_put_pixel(game->game_img, x, y, color);
+		y++;
+	}
 }
 
 void	draw_3d_view(t_game *game)
@@ -66,7 +96,7 @@ void	draw_3d_view(t_game *game)
 	double	ray_dir_x;
 	double	ray_dir_y;
 	t_hit	hit;
-	int		color;
+	//int		color;
 	double	line_height;
 	double	draw_start;
 	double	draw_end;
@@ -86,7 +116,7 @@ void	draw_3d_view(t_game *game)
 		if (draw_end >= HEIGHT)
 			draw_end = HEIGHT - 1;
 
-		make_wall_texture(game, hit, ray_dir_x, ray_dir_y);
+		make_wall_texture(game, hit, ray_dir_x, ray_dir_y, line_height, draw_start, draw_end, x);
 
 		//if (hit.side == 0)
 		//	color = C_WHITE;
