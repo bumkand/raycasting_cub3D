@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/04 11:26:23 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/13 20:02:15 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define WIDTH 1024          // Šířka okna
 # define HEIGHT 768           // Výška okna
 # define TILE_SIZE 32 // Velikost jednoho čtverečku mapy v pixelech
-# define MINIMAP_SCALE 16 // Zmenšovací faktor pro minimapu
+# define MINIMAP_SCALE 8 // Zmenšovací faktor pro minimapu
 # define PLAYER_SPEED 0.1
 # define PLAYER_SIZE 8
 # define COLLISION_RADIUS ( (double)PLAYER_SIZE / (double)TILE_SIZE / 2.0 )
@@ -37,6 +37,31 @@
 # define C_RED     0xFF0000FF  // Červená (pro hráče)
 # define C_GREY    0x808080FF  // Šedá (pro podlahu minimapy)
 # define C_GREEN   0x00FF00FF  // Zelená (pro pohled hráče)
+
+typedef struct s_texture
+{
+	mlx_texture_t	*NO;
+	mlx_texture_t	*SO;
+	mlx_texture_t	*WE;
+	mlx_texture_t	*EA;
+}	t_texture;
+
+typedef struct s_image
+{
+	mlx_image_t	*NO;
+	mlx_image_t	*SO;
+	mlx_image_t	*WE;
+	mlx_image_t	*EA;
+}	t_image;
+
+typedef struct s_hit
+{
+	int		map_x;
+	int		map_y;
+	int		side;
+	double	dist;
+}	t_hit;
+
 
 typedef struct s_player
 {
@@ -50,8 +75,10 @@ typedef struct s_player
 
 typedef struct s_game
 {
-	mlx_t			*mlx;
-    mlx_image_t		*game_img; // framebuffer
+	mlx_t				*mlx;
+    mlx_image_t			*game_img; // framebuffer
+	struct s_texture	*text;
+	struct s_image		*img;
 
 	// Map data
 	char	**map;
@@ -65,7 +92,6 @@ typedef struct s_game
 	int		color_c[3];			// RGB Ceiling
 
 	t_player    player;       // Vnořená struktura pro hráče
-	
 }	t_game;
 
 // error.c
@@ -121,13 +147,17 @@ int	count_length(const char *s);
 int	check_free_line(char *line);
 char	*ft_strdup_with_spaces(const char *s, t_game *game);
 
+// raycast.c
+t_hit perform_dda(t_game *game, double ray_dir_x, double ray_dir_y);
 
+// 3d_view.c
+void	draw_3d_view(t_game *game);
 
 // free_functions.c
 void	free_texture(t_game *game);
 void	free_map(t_game *game);
 void	free_cub(char **cub_file);
 
-void	draw_ray(void *param);
+//void	draw_ray(void *param);
 
 #endif

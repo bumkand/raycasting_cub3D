@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 21:39:34 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/02 23:21:23 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/08 16:54:20 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ void game_tick(void *param)
 
     // 2. KROK: VYKRESLENÍ VŠEHO
     clear_framebuffer(game);
+     draw_3d_view(game);
     draw_minimap(game);
-    // draw_3d_view(game); // Později přijde sem
 }
