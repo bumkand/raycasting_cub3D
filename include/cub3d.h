@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/09 20:55:23 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/13 20:02:15 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define WIDTH 1024          // Šířka okna
 # define HEIGHT 768           // Výška okna
 # define TILE_SIZE 32 // Velikost jednoho čtverečku mapy v pixelech
-# define MINIMAP_SCALE 16 // Zmenšovací faktor pro minimapu
+# define MINIMAP_SCALE 8 // Zmenšovací faktor pro minimapu
 # define PLAYER_SPEED 0.1
 # define PLAYER_SIZE 8
 # define COLLISION_RADIUS ( (double)PLAYER_SIZE / (double)TILE_SIZE / 2.0 )
