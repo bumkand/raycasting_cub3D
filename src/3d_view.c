@@ -37,15 +37,15 @@ void	draw_vertical_line(t_game *game, int x, double draw_start, double draw_end,
 
 mlx_texture_t	*choose_texture(t_game *game, t_hit hit, double ray_dir_x, double ray_dir_y)
 {
-	mlx_texture_t	*tex;
+	mlx_texture_t	*tex = NULL;
 
 	if (hit.side == 0 && ray_dir_x > 0)
 		tex = game->text->EA;
-	if (hit.side == 0 && ray_dir_x < 0)
+	else if (hit.side == 0 && ray_dir_x < 0)
 		tex = game->text->WE;
-	if (hit.side == 1 && ray_dir_y > 0)
+	else if (hit.side == 1 && ray_dir_y > 0)
 		tex = game->text->SO;
-	if (hit.side == 1 && ray_dir_y < 0)
+	else if (hit.side == 1 && ray_dir_y < 0)
 		tex = game->text->NO;
 	return (tex);
 }
