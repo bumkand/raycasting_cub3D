@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:17:10 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/04 11:28:14 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/14 21:47:02 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	init_data(t_game *game, char *map_path)
 
 	fd = open(map_path, O_RDONLY);
 	if (fd == -1)
-        return (ft_error("Could not open map file"));
+		return (ft_error("Could not open map file"));
 	line = get_next_line(fd);
 	if (get_cub_file(&cub_file, fd, line, map_path))
 		return (ft_error(".cub File Array Error"));
@@ -114,15 +114,6 @@ int	init_data(t_game *game, char *map_path)
 		if (map_text_color(cub_file, &y, game))
 			return (1);
 	}
-	//printf("NO texture = %s\nSO texture = %s\nWE texture = %s\nEA texture = %s\n", game->text_no, game->text_so, game->text_we, game->text_ea);
-	//printf("F color = %i,%i,%i\nC color = %i,%i,%i\n", game->color_f[0], game->color_f[1], game->color_f[2], game->color_c[0], game->color_c[1], game->color_c[2]);
-	//printf(" game height = %i\n game width = %i\n", game->height, game->width);
-	//y = 0;
-	//while (game->map[y])
-	//{
-	//	printf("%s\n", game->map[y]);
-	//	y++;
-	//}
 	free_cub(cub_file);
 	if (game->map && map_gamebility(game))
 		return (1);

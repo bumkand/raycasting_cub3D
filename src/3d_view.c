@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 16:54:46 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/12 18:10:10 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/14 21:27:40 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,72 +18,58 @@ uint32_t	rgb_to_trgb(int t, int r, int g, int b)
 		| ((g & 0xFF) << 8) | (b & 0xFF));
 }
 
-void	draw_vertical_line(t_game *game, int x, double draw_start, double draw_end, int color)
+mlx_texture_t	*choose_wall(t_game *game, t_hit hit,
+		double ray_dir_x, double ray_dir_y)
 {
-	int	y;
+	mlx_texture_t	*tex;
 
-	y = 0;
-	while (y < HEIGHT)
-	{
-		if (y < draw_start)
-			mlx_put_pixel(game->game_img, x, y, rgb_to_trgb(255, game->color_f[0], game->color_f[1], game->color_f[2]));
-		else if (y >= draw_start && y < draw_end)
-			mlx_put_pixel(game->game_img, x, y, color);
-		else
-			mlx_put_pixel(game->game_img, x, y, rgb_to_trgb(255, game->color_c[0], game->color_c[1], game->color_c[2]));
-		y++;
-	}
-}
-
-mlx_texture_t	*choose_texture(t_game *game, t_hit hit, double ray_dir_x, double ray_dir_y)
-{
-	mlx_texture_t	*tex = NULL;
-
+	tex = NULL;
 	if (hit.side == 0 && ray_dir_x > 0)
 		tex = game->text->EA;
 	else if (hit.side == 0 && ray_dir_x < 0)
 		tex = game->text->WE;
 	else if (hit.side == 1 && ray_dir_y > 0)
 		tex = game->text->SO;
-	else if (hit.side == 1 && ray_dir_y < 0)
+	else
 		tex = game->text->NO;
 	return (tex);
 }
 
-void	make_wall_texture(t_game *game, t_hit hit, double ray_dir_x, double ray_dir_y, double line_height, double draw_start, double draw_end, int x)
+void	render_data(t_game *game, t_hit hit,
+		t_render *render, mlx_texture_t *tex)
+{
+	if (hit.side == 0)
+		render->wall_x = game->player.pos_y + hit.dist * render->ray_dir_y;
+	else
+		render->wall_x = game->player.pos_x + hit.dist * render->ray_dir_x;
+	render->wall_x -= floor(render->wall_x);
+	render->tex_x = (int)(render->wall_x * tex->width);
+	if (hit.side == 0 && render->ray_dir_x > 0)
+		render->tex_x = tex->width - render->tex_x - 1;
+	if (hit.side == 1 && render->ray_dir_y < 0)
+		render->tex_x = tex->width - render->tex_x - 1;
+	render->step = 1.0 * tex->height / render->line_height;
+	render->text_pos = (render->draw_start - HEIGHT / 2
+			+ render->line_height / 2) * render->step;
+}
+
+void	make_wall_texture(t_game *game, t_hit hit, t_render *render, int x)
 {
 	mlx_texture_t	*tex;
-	double			wall_x;
-	int				tex_x;
-	double			step;
-	double			text_pos;
-	int				y;
-	int				tex_y;
 	uint8_t			*pixel;
 	uint32_t		color;
+	int				y;
 
-	tex = choose_texture(game, hit, ray_dir_x, ray_dir_y);
-
-	if (hit.side == 0)
-		wall_x = game->player.pos_y + hit.dist * ray_dir_y;
-	else
-		wall_x = game->player.pos_x + hit.dist * ray_dir_x;
-	wall_x -= floor(wall_x);
-	tex_x = (int)(wall_x * tex->width);
-	if (hit.side == 0 && ray_dir_x > 0)
-		tex_x = tex->width - tex_x - 1;
-	if (hit.side == 1 && ray_dir_y < 0)
-		tex_x = tex->width - tex_x - 1;
-
-	step = 1.0 * tex->height / line_height;
-	text_pos = (draw_start - HEIGHT / 2 + line_height / 2) * step;
-	y = draw_start;
-	while (y < draw_end)
+	tex = choose_wall(game, hit, render->ray_dir_x, render->ray_dir_y);
+	render_data(game, hit, render, tex);
+	y = render->draw_start;
+	while (y < render->draw_end)
 	{
-		tex_y = (int)text_pos & (tex->height - 1);
-		text_pos += step;
-		pixel = tex->pixels + (tex_y * tex->width + tex_x) * 4;
-		color = (pixel[0] << 24) | (pixel[1] << 16) | (pixel[2] << 8) | pixel[3];
+		render->tex_y = (int)render->text_pos & (tex->height - 1);
+		render->text_pos += render->step;
+		pixel = tex->pixels + (render->tex_y * tex->width + render->tex_x) * 4;
+		color = (pixel[0] << 24) | (pixel[1] << 16)
+			| (pixel[2] << 8) | pixel[3];
 		mlx_put_pixel(game->game_img, x, y, color);
 		y++;
 	}
@@ -91,39 +77,28 @@ void	make_wall_texture(t_game *game, t_hit hit, double ray_dir_x, double ray_dir
 
 void	draw_3d_view(t_game *game)
 {
-	int		x;
-	double	camera_x;
-	double	ray_dir_x;
-	double	ray_dir_y;
-	t_hit	hit;
-	//int		color;
-	double	line_height;
-	double	draw_start;
-	double	draw_end;
+	int			x;
+	t_hit		hit;
+	t_render	render;
 
 	x = 0;
 	while (x < WIDTH)
 	{
-		camera_x = 2 * x / (double)WIDTH - 1;
-		ray_dir_x = game->player.dir_x + game->player.plane_x * camera_x;
-		ray_dir_y = game->player.dir_y + game->player.plane_y * camera_x;
-		hit = perform_dda(game, ray_dir_x, ray_dir_y);
-		line_height = HEIGHT / hit.dist;
-		draw_start = (HEIGHT / 2) - (line_height / 2);
-		if (draw_start < 0)
-			draw_start = 0;
-		draw_end = (HEIGHT / 2) + (line_height / 2);
-		if (draw_end >= HEIGHT)
-			draw_end = HEIGHT - 1;
+		render.camera_x = 2 * x / (double)WIDTH - 1;
+		render.ray_dir_x = game->player.dir_x
+			+ game->player.plane_x * render.camera_x;
+		render.ray_dir_y = game->player.dir_y
+			+ game->player.plane_y * render.camera_x;
+		hit = perform_dda(game, render.ray_dir_x, render.ray_dir_y);
+		render.line_height = HEIGHT / hit.dist;
+		render.draw_start = (HEIGHT / 2) - (render.line_height / 2);
+		if (render.draw_start < 0)
+			render.draw_start = 0;
+		render.draw_end = (HEIGHT / 2) + (render.line_height / 2);
+		if (render.draw_end >= HEIGHT)
+			render.draw_end = HEIGHT - 1;
 
-		make_wall_texture(game, hit, ray_dir_x, ray_dir_y, line_height, draw_start, draw_end, x);
-
-		//if (hit.side == 0)
-		//	color = C_WHITE;
-		//else
-		//	color = C_GREY;
-		//draw_vertical_line(game, x, draw_start, draw_end, color);
-		
+		make_wall_texture(game, hit, &render, x);
 		x++;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/13 20:02:15 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/14 20:59:04 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,30 +48,51 @@ typedef struct s_texture
 
 typedef struct s_image
 {
-	mlx_image_t	*NO;
-	mlx_image_t	*SO;
-	mlx_image_t	*WE;
-	mlx_image_t	*EA;
+	mlx_image_t		*NO;
+	mlx_image_t		*SO;
+	mlx_image_t		*WE;
+	mlx_image_t		*EA;
 }	t_image;
 
 typedef struct s_hit
 {
 	int		map_x;
 	int		map_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
+	double	side_dist_x;
+	double	side_dist_y;
 	int		side;
 	double	dist;
+	int		step_x;
+	int		step_y;
+	int		found;
 }	t_hit;
 
+typedef struct s_render
+{
+	double	camera_x;
+	double	ray_dir_x;
+	double	ray_dir_y;
+	double	line_height;
+	double	draw_start;
+	double	draw_end;
+	double	wall_x;
+	int		tex_x;
+	int		tex_y;
+	double	text_pos;
+	double	step;
+}	t_render;
 
 typedef struct s_player
 {
-    double  pos_x;      // Pozice v mapových jednotkách
-    double  pos_y;
-    double  dir_x;      // Směrový vektor
-    double  dir_y;
-    double  plane_x;    // Vektor kamery
-    double  plane_y;
-}   t_player;
+	double	pos_x;      // Pozice v mapových jednotkách
+	double	pos_y;
+	double	dir_x;      // Směrový vektor
+	double	dir_y;
+	double	plane_x;    // Vektor kamery
+	double	plane_y;
+}	t_player;
 
 typedef struct s_game
 {

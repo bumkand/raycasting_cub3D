@@ -6,90 +6,96 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 22:53:13 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/08 21:41:58 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/14 17:35:59 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-t_hit perform_dda(t_game *game, double ray_dir_x, double ray_dir_y)
+void	init_delta_dist(t_hit *hit, double ray_dir_x, double ray_dir_y)
 {
-    t_hit hit;
-    int map_x;
-    int map_y;
-    double delta_dist_x;
-    double delta_dist_y;
-    double side_dist_x;
-    double side_dist_y;
-    int step_x;
-    int step_y;
-    int side;
-    int hit_found;
+	if (ray_dir_x == 0)
+		hit->delta_dist_x = 1e30;
+	else
+		hit->delta_dist_x = fabs(1 / ray_dir_x);
+	if (ray_dir_y == 0)
+		hit->delta_dist_y = 1e30;
+	else
+		hit->delta_dist_y = fabs(1 / ray_dir_y);
+}
 
-    map_x = (int)game->player.pos_x;
-    map_y = (int)game->player.pos_y;
+void	init_side_dist(t_game *game, t_hit *hit,
+		double ray_dir_x, double ray_dir_y)
+{
+	if (ray_dir_x < 0)
+	{
+		hit->step_x = -1;
+		hit->side_dist_x = (game->player.pos_x - hit->map_x)
+			* hit->delta_dist_x;
+	}
+	else
+	{
+		hit->step_x = 1;
+		hit->side_dist_x = (hit->map_x + 1.0 - game->player.pos_x)
+			* hit->delta_dist_x;
+	}
+	if (ray_dir_y < 0)
+	{
+		hit->step_y = -1;
+		hit->side_dist_y = (game->player.pos_y - hit->map_y)
+			* hit->delta_dist_y;
+	}
+	else
+	{
+		hit->step_y = 1;
+		hit->side_dist_y = (hit->map_y + 1.0 - game->player.pos_y)
+			* hit->delta_dist_y;
+	}
+}
+
+void	find_hit(t_hit *hit, t_game *game, double ray_dir_x, double ray_dir_y)
+{
+	hit->found = 0;
+	while (hit->found == 0)
+	{
+		if (hit->side_dist_x < hit->side_dist_y)
+		{
+			hit->side_dist_x += hit->delta_dist_x;
+			hit->map_x += hit->step_x;
+			hit->side = 0;
+		}
+		else
+		{
+			hit->side_dist_y += hit->delta_dist_y;
+			hit->map_y += hit->step_y;
+			hit->side = 1;
+		}
+		if (game->map[hit->map_y][hit->map_x] == '1')
+			hit->found = 1;
+	}
+	if (hit->side == 0)
+		hit->dist = (hit->map_x - game->player.pos_x
+				+ (1 - hit->step_x) / 2) / ray_dir_x;
+	else
+		hit->dist = (hit->map_y - game->player.pos_y
+				+ (1 - hit->step_y) / 2) / ray_dir_y;
+}
+
+t_hit	perform_dda(t_game *game, double ray_dir_x, double ray_dir_y)
+{
+	t_hit	hit;
+
+	hit.map_x = (int)game->player.pos_x;
+	hit.map_y = (int)game->player.pos_y;
 
     // Výpočet delta_dist_x a delta_dist_y bez ternárneho operátora
-    if (ray_dir_x == 0)
-        delta_dist_x = 1e30;
-    else
-        delta_dist_x = fabs(1 / ray_dir_x);
-
-    if (ray_dir_y == 0)
-        delta_dist_y = 1e30;
-    else
-        delta_dist_y = fabs(1 / ray_dir_y);
+	init_delta_dist(&hit, ray_dir_x, ray_dir_y);
 
     // Určenie smeru kroku a počiatočnej vzdialenosti
-    if (ray_dir_x < 0)
-    {
-        step_x = -1;
-        side_dist_x = (game->player.pos_x - map_x) * delta_dist_x;
-    }
-    else
-    {
-        step_x = 1;
-        side_dist_x = (map_x + 1.0 - game->player.pos_x) * delta_dist_x;
-    }
-    if (ray_dir_y < 0)
-    {
-        step_y = -1;
-        side_dist_y = (game->player.pos_y - map_y) * delta_dist_y;
-    }
-    else
-    {
-        step_y = 1;
-        side_dist_y = (map_y + 1.0 - game->player.pos_y) * delta_dist_y;
-    }
+	init_side_dist(game, &hit, ray_dir_x, ray_dir_y);
 
     // DDA algoritmus – krokovanie po mapových štvorcoch
-    hit_found = 0;
-    while (hit_found == 0)
-    {
-        if (side_dist_x < side_dist_y)
-        {
-            side_dist_x += delta_dist_x;
-            map_x += step_x;
-            side = 0;
-        }
-        else
-        {
-            side_dist_y += delta_dist_y;
-            map_y += step_y;
-            side = 1;
-        }
-        if (game->map[map_y][map_x] == '1')
-            hit_found = 1;
-    }
+	find_hit(&hit, game, ray_dir_x, ray_dir_y);
 
-    // Výpočet presnej vzdialenosti k stene
-    hit.map_x = map_x;
-    hit.map_y = map_y;
-    hit.side = side;
-    if (side == 0)
-        hit.dist = (map_x - game->player.pos_x + (1 - step_x) / 2) / ray_dir_x;
-    else
-        hit.dist = (map_y - game->player.pos_y + (1 - step_y) / 2) / ray_dir_y;
-
-    return (hit);
+	return (hit);
 }

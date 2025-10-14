@@ -6,7 +6,7 @@
 /*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 18:06:08 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/04 11:28:28 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/14 21:41:25 by jakand           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,12 @@ void	init_struct(t_game *game)
 	game->map = NULL;
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_game	game;
 
 	if (argc != 2)
-        return (ft_error("Usage: ./cub3D maps/map_file.cub"));
-	
+		return (ft_error("Usage: ./cub3D maps/map_file.cub"));
 	init_struct(&game);
 	if (init_data(&game, argv[1]))
 	{
