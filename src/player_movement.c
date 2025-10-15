@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 18:46:57 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/15 19:07:20 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/15 19:41:15 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,17 @@ void	handle_rotation(t_game *game)
 
 void	apply_movement(t_game *game, double new_x, double new_y)
 {
-	if (!is_wall(game, new_x + COLLISION_RADIUS,
-			game->player.pos_y + COLLISION_RADIUS)
-		&& !is_wall(game, new_x + COLLISION_RADIUS,
-			game->player.pos_y - COLLISION_RADIUS)
-		&& !is_wall(game, new_x - COLLISION_RADIUS,
-			game->player.pos_y + COLLISION_RADIUS)
-		&& !is_wall(game, new_x - COLLISION_RADIUS,
-			game->player.pos_y - COLLISION_RADIUS))
+	double	radius;
+
+	radius = (double)PLAYER_SIZE / (double)MINIMAP_TILE_SIZE / 2.0;
+	if (!is_wall(game, new_x + radius, game->player.pos_y + radius)
+		&& !is_wall(game, new_x + radius, game->player.pos_y - radius)
+		&& !is_wall(game, new_x - radius, game->player.pos_y + radius)
+		&& !is_wall(game, new_x - radius, game->player.pos_y - radius))
 		game->player.pos_x = new_x;
-	if (!is_wall(game, game->player.pos_x + COLLISION_RADIUS,
-			new_y + COLLISION_RADIUS)
-		&& !is_wall(game, game->player.pos_x + COLLISION_RADIUS,
-			new_y - COLLISION_RADIUS)
-		&& !is_wall(game, game->player.pos_x - COLLISION_RADIUS,
-			new_y + COLLISION_RADIUS)
-		&& !is_wall(game, game->player.pos_x - COLLISION_RADIUS,
-			new_y - COLLISION_RADIUS))
+	if (!is_wall(game, game->player.pos_x + radius, new_y + radius)
+		&& !is_wall(game, game->player.pos_x + radius, new_y - radius)
+		&& !is_wall(game, game->player.pos_x - radius, new_y + radius)
+		&& !is_wall(game, game->player.pos_x - radius, new_y - radius))
 		game->player.pos_y = new_y;
 }

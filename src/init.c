@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:44:19 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/15 16:54:15 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/15 19:38:54 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,21 @@ int	get_textures(t_game *game)
 	game->text = ft_calloc(1, sizeof(t_texture));
 	if (!game->text)
 		return (1);
-	game->text->NO = mlx_load_png(game->text_no);
-	game->text->SO = mlx_load_png(game->text_so);
-	game->text->WE = mlx_load_png(game->text_we);
-	game->text->EA = mlx_load_png(game->text_ea);
-	if (!game->text->NO || !game->text->SO
-		|| !game->text->WE || !game->text->EA)
+	game->text->north = mlx_load_png(game->text_no);
+	game->text->south = mlx_load_png(game->text_so);
+	game->text->west = mlx_load_png(game->text_we);
+	game->text->east = mlx_load_png(game->text_ea);
+	if (!game->text->north || !game->text->south
+		|| !game->text->west || !game->text->east)
 	{
-		if (game->text->NO)
-			mlx_delete_texture(game->text->NO);
-		if (game->text->SO)
-			mlx_delete_texture(game->text->SO);
-		if (game->text->WE)
-			mlx_delete_texture(game->text->WE);
-		if (game->text->EA)
-			mlx_delete_texture(game->text->EA);
+		if (game->text->north)
+			mlx_delete_texture(game->text->north);
+		if (game->text->south)
+			mlx_delete_texture(game->text->south);
+		if (game->text->west)
+			mlx_delete_texture(game->text->west);
+		if (game->text->east)
+			mlx_delete_texture(game->text->east);
 		return (free(game->text), 1);
 	}
 	return (0);

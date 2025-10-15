@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 16:54:46 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/15 16:50:57 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/15 19:38:10 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ mlx_texture_t	*choose_wall(t_game *game, t_hit hit,
 
 	tex = NULL;
 	if (hit.side == 0 && ray_dir_x > 0)
-		tex = game->text->EA;
+		tex = game->text->east;
 	else if (hit.side == 0 && ray_dir_x < 0)
-		tex = game->text->WE;
+		tex = game->text->west;
 	else if (hit.side == 1 && ray_dir_y > 0)
-		tex = game->text->SO;
+		tex = game->text->south;
 	else
-		tex = game->text->NO;
+		tex = game->text->north;
 	return (tex);
 }
 
@@ -84,7 +84,7 @@ void	draw_3d_view(t_game *game)
 	x = 0;
 	while (x < WIDTH)
 	{
-		render.camera_x = 2 * x / (double)WIDTH - 1;
+		render.camera_x = 2 * x / (double) WIDTH - 1;
 		render.ray_dir_x = game->player.dir_x
 			+ game->player.plane_x * render.camera_x;
 		render.ray_dir_y = game->player.dir_y
