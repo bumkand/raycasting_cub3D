@@ -6,13 +6,13 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 18:46:57 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/15 19:41:15 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/15 19:54:22 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	rotate_vectors(t_game *game, double angle)
+void	rotate_vectors(t_game *game, double angle)
 {
 	double	old_dir_x;
 	double	old_plane_x;

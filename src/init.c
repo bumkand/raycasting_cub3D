@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:44:19 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/15 19:38:54 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/15 19:53:28 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	get_textures(t_game *game)
 
 int	init_game(t_game *game)
 {
+	int32_t		dummy_y;
+	
 	game->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
 	if (!game->mlx)
 	{
@@ -60,5 +62,6 @@ int	init_game(t_game *game)
 		mlx_terminate(game->mlx);
 		return (ft_error("Failed to save wall textures"));
 	}
+	mlx_get_mouse_pos(game->mlx, &game->player.last_mouse_x, &dummy_y);
 	return (EXIT_SUCCESS);
 }

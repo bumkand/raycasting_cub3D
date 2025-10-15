@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 20:56:08 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/15 19:06:12 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/15 19:51:03 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,6 @@ void	handle_player_input(t_game *game)
 	new_y = game->player.pos_y;
 	handle_movement(game, &new_x, &new_y);
 	handle_rotation(game);
+    handle_mouse_rotation(game);
 	apply_movement(game, new_x, new_y);
 }

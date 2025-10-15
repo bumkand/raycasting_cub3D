@@ -15,6 +15,7 @@ SRCS = main.c init.c \
 		map_utils.c map_validation.c minimap.c minimap_utils.c \
 		raycast.c 3d_view.c error.c player_direction.c player_init.c \
 		player_movement.c get_next_line.c get_next_line_utils.c \
+		player_mouse.c \
 		
 # Add src/ prefix to source files  
 SRCS := $(addprefix $(SRC_DIR)/,$(SRCS))

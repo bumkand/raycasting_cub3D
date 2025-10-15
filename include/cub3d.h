@@ -6,7 +6,7 @@
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/15 19:44:23 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/15 19:54:39 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_player
 	double			dir_y;
 	double			plane_x;
 	double			plane_y;
+	int				last_mouse_x;
 }	t_player;
 
 typedef struct s_square
@@ -135,6 +136,7 @@ int		is_wall(t_game *game, double x, double y);
 void	handle_movement(t_game *game, double *new_x, double *new_y);
 void	handle_rotation(t_game *game);
 void	apply_movement(t_game *game, double new_x, double new_y);
+void	rotate_vectors(t_game *game, double angle);
 
 // init_data.c
 int		init_data(t_game *game, char *map_path);
@@ -184,5 +186,8 @@ void	draw_3d_view(t_game *game);
 void	free_texture(t_game *game);
 void	free_map(t_game *game);
 void	free_cub(char **cub_file);
+
+// player_mouse.c
+void	handle_mouse_rotation(t_game *game);
 
 #endif
