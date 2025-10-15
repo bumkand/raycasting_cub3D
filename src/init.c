@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 07:44:19 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/12 18:17:54 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/15 16:54:15 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,35 +37,28 @@ int	get_textures(t_game *game)
 	return (0);
 }
 
-int init_game(t_game *game)
+int	init_game(t_game *game)
 {
-    // 1. Inicializace MLX (toto už máte)
-    game->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
-    if (!game->mlx)
-    {
-        // Zde by mělo být volání vaší chybové funkce
-        return (ft_error("MLX initialization failed"));
-    }
-
-    // 2. Vytvoření obrázku (framebufferu) - TOTO CHYBÍ
-    game->game_img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
-    if (!game->game_img)
-    {
-        mlx_terminate(game->mlx); // Uklidíme po mlx_init
-        return (ft_error("Failed to create MLX image"));
-    }
-
-    // 3. Zobrazení obrázku v okně - TOTO CHYBÍ
-    if (mlx_image_to_window(game->mlx, game->game_img, 0, 0) == -1)
-    {
-        mlx_terminate(game->mlx); // Uklidíme
-        return (ft_error("Failed to display image in window"));
-    }
-
+	game->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
+	if (!game->mlx)
+	{
+		return (ft_error("MLX initialization failed"));
+	}
+	game->game_img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
+	if (!game->game_img)
+	{
+		mlx_terminate(game->mlx);
+		return (ft_error("Failed to create MLX image"));
+	}
+	if (mlx_image_to_window(game->mlx, game->game_img, 0, 0) == -1)
+	{
+		mlx_terminate(game->mlx);
+		return (ft_error("Failed to display image in window"));
+	}
 	if (get_textures(game))
 	{
-		mlx_terminate(game->mlx); // Uklidíme
+		mlx_terminate(game->mlx);
 		return (ft_error("Failed to save wall textures"));
 	}
-    return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

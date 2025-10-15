@@ -12,8 +12,9 @@ LIBFT_DIR = libft
 SRCS = main.c init.c \
 		player.c game.c init_data.c cub_file.c free_functions.c \
 		texture_color.c init_texture.c init_color.c init_map.c \
-		map_utils.c map_gamebility.c minimap.c \
-		raycast.c 3d_view.c error.c \
+		map_utils.c map_validation.c minimap.c minimap_utils.c \
+		raycast.c 3d_view.c error.c player_direction.c player_init.c \
+		player_movement.c get_next_line.c get_next_line_utils.c \
 		
 # Add src/ prefix to source files  
 SRCS := $(addprefix $(SRC_DIR)/,$(SRCS))

@@ -1,12 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_gamebility.c                                   :+:      :+:    :+:   */
+/*   map_validation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 19:43:04 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/02 15:22:33 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/15 18:27:54 by marcel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_validation.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/30 19:43:04 by jakand            #+#    #+#             */
+/*   Updated: 2025/10/15 18:00:00 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,51 +50,6 @@ char	**copy_of_map(t_game *game)
 	}
 	map_copy[y] = NULL;
 	return (map_copy);
-}
-
-void	find_start_position(t_game *game)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (game->map[y])
-	{
-		x = 0;
-		while (game->map[y][x])
-		{
-			if (game->map[y][x] == 'N' || game->map[y][x] == 'S'
-				|| game->map[y][x] == 'W' || game->map[y][x] == 'E')
-			{
-				game->player.pos_x = x + 0.5;
-				game->player.pos_y = y + 0.5;
-			
-				if (game->map[y][x] == 'N')
-    			{
-        			game->player.dir_x = 0; game->player.dir_y = -1;
-        			game->player.plane_x = 0.66; game->player.plane_y = 0;
-    			}
-    			else if (game->map[y][x] == 'S')
-    			{
-        			game->player.dir_x = 0; game->player.dir_y = 1;
-        			game->player.plane_x = -0.66; game->player.plane_y = 0;
-    			}
-    			else if (game->map[y][x] == 'W')
-    			{
-	        		game->player.dir_x = -1; game->player.dir_y = 0;
-        			game->player.plane_x = 0; game->player.plane_y = -0.66;
-    			}
-    			else if (game->map[y][x] == 'E')
-    			{
-        			game->player.dir_x = 1; game->player.dir_y = 0;
-        			game->player.plane_x = 0; game->player.plane_y = 0.66;
-    			}
-				return ;
-			}
-			x++;
-		}
-		y++;
-	}
 }
 
 int	check_first_last_line(char **map_copy, int x, int *y, t_game *game)
@@ -121,8 +88,7 @@ int	check_other_lines(char **map_copy, int *x, int y)
 	return (0);
 }
 
-
-int	check_gamebility(char **map_copy, t_game *game)
+int	check_map_walls(char **map_copy, t_game *game)
 {
 	int	y;
 	int	x;

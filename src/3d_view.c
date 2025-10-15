@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   3d_view.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 16:54:46 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/14 21:27:40 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/15 16:50:57 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ void	draw_3d_view(t_game *game)
 		render.draw_end = (HEIGHT / 2) + (render.line_height / 2);
 		if (render.draw_end >= HEIGHT)
 			render.draw_end = HEIGHT - 1;
-
 		make_wall_texture(game, hit, &render, x);
 		x++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/14 20:59:04 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/15 18:59:52 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,10 @@
 
 # define WIDTH 1024          // Šířka okna
 # define HEIGHT 768           // Výška okna
-# define TILE_SIZE 32 // Velikost jednoho čtverečku mapy v pixelech
-# define MINIMAP_SCALE 8 // Zmenšovací faktor pro minimapu
+# define MINIMAP_TILE_SIZE 8 // Zmenšovací faktor pro minimapu
 # define PLAYER_SPEED 0.1
-# define PLAYER_SIZE 8
-# define COLLISION_RADIUS ( (double)PLAYER_SIZE / (double)TILE_SIZE / 2.0 )
+# define PLAYER_SIZE 4
+# define COLLISION_RADIUS ( (double)PLAYER_SIZE / (double) MINIMAP_TILE_SIZE / 2.0 )
 # define ROTATION_SPEED 0.05
 
 # define C_BLACK   0x000000FF  // Černá
@@ -115,6 +114,14 @@ typedef struct s_game
 	t_player    player;       // Vnořená struktura pro hráče
 }	t_game;
 
+typedef struct s_square
+{
+    int x;
+    int y;
+    int size;
+    int color;
+} t_square;
+
 // error.c
 int 	ft_error(const char *message);
 
@@ -128,12 +135,24 @@ int		init_game(t_game *game);
 // minimap.c 
 void	clear_framebuffer(t_game *game);
 void	draw_minimap(t_game *game);
+void	draw_square(t_game *game, t_square sq);
+void	draw_player(t_game *game);
+
+// minimap_utils.c
+void	draw_minimap_tiles(t_game *game);
+void	draw_single_ray(t_game *game, t_render *render, int px, int py);
 
 // player.c
 void	handle_player_input(t_game *game);
-int		check_collision(t_game *game, double new_x, double new_y);
+int		is_wall(t_game *game, double x, double y);
 
-int	init_data(t_game *game, char *map_path);
+// player_movement.c
+void	handle_movement(t_game *game, double *new_x, double *new_y);
+void	handle_rotation(t_game *game);
+void	apply_movement(t_game *game, double new_x, double new_y);
+
+// init_data.c
+int		init_data(t_game *game, char *map_path);
 
 // cub_file.c
 int	get_cub_file(char ***cub_file, int fd, char *line, char *map_path);
@@ -157,10 +176,15 @@ int	check_order_color(t_game *game, int i);
 // init_map.c
 int	init_game_map(char **cub_map, int start, t_game *game);
 
-// map_gamebility.c
-int		check_gamebility(char **map_copy, t_game *game);
-void	find_start_position(t_game *game);
+// map_validation.c
+int		check_map_walls(char **map_copy, t_game *game);
 char	**copy_of_map(t_game *game);
+
+// player_init.c
+void	find_start_position(t_game *game);
+
+// player_direction.c
+void	set_player_direction(t_game *game, char direction);
 
 // map_utils.c
 char	*ft_strdup(const char *s);

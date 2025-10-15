@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:17:10 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/14 21:47:02 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/15 18:30:16 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	map_gamebility(t_game *game)
 	if (map_copy == NULL)
 		return (1);
 	find_start_position(game);
-	if (check_gamebility(map_copy, game))
+	if (check_map_walls(map_copy, game))
 		return (free_cub(map_copy), 1);
 	free_cub(map_copy);
 	return (0);

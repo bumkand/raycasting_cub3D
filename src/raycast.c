@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 22:53:13 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/14 17:35:59 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/15 19:08:10 by marcel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,8 @@ t_hit	perform_dda(t_game *game, double ray_dir_x, double ray_dir_y)
 
 	hit.map_x = (int)game->player.pos_x;
 	hit.map_y = (int)game->player.pos_y;
-
-    // Výpočet delta_dist_x a delta_dist_y bez ternárneho operátora
 	init_delta_dist(&hit, ray_dir_x, ray_dir_y);
-
-    // Určenie smeru kroku a počiatočnej vzdialenosti
 	init_side_dist(game, &hit, ray_dir_x, ray_dir_y);
-
-    // DDA algoritmus – krokovanie po mapových štvorcoch
 	find_hit(&hit, game, ray_dir_x, ray_dir_y);
-
 	return (hit);
 }
