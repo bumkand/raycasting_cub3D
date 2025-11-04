@@ -28,8 +28,9 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 HEADERS = -I $(INC_DIR) -I$(LIBFT_DIR)  -I $(LIBMLX)/include
 LIBS = $(LIBFT) $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
+MLX_A = $(LIBMLX)/build/libmlx42.a
 
-all: $(OBJ_DIR) $(LIBFT) libmlx $(NAME)
+all: $(OBJ_DIR) $(LIBFT) $(MLX_A) $(NAME)
 
 # Create obj directory if it doesn't exist
 $(OBJ_DIR):
@@ -39,7 +40,7 @@ $(OBJ_DIR):
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
-libmlx:
+$(MLX_A):
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
 # Rule to compile .c files into .o files

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmravec <mmravec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 13:27:05 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/15 19:54:39 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/16 11:17:40 by mmravec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define PLAYER_SPEED 0.1
 # define PLAYER_SIZE 4
 # define ROTATION_SPEED 0.05
+# define MOUSE_SENSITIVITY 0.003
 # define C_BLACK 0x000000FF
 # define C_WHITE 0xFFFFFFFF
 # define C_RED 0xFF0000FF
@@ -186,8 +187,9 @@ void	draw_3d_view(t_game *game);
 void	free_texture(t_game *game);
 void	free_map(t_game *game);
 void	free_cub(char **cub_file);
+void	free_loaded_textures(t_game *game);
 
 // player_mouse.c
-void	handle_mouse_rotation(t_game *game);
+void	mouse_hook(double xdelta, double ydelta, void *param);
 
 #endif

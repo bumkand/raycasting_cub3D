@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmravec <mmravec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 17:24:25 by jakand            #+#    #+#             */
-/*   Updated: 2025/09/23 17:25:57 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/16 11:17:12 by mmravec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,18 @@ void	free_cub(char **cub_file)
 	}
 	if (cub_file)
 		free(cub_file);
+}
+
+void	free_loaded_textures(t_game *game)
+{
+	if (game->text && game->text->north)
+		mlx_delete_texture(game->text->north);
+	if (game->text && game->text->south)
+		mlx_delete_texture(game->text->south);
+	if (game->text && game->text->west)
+		mlx_delete_texture(game->text->west);
+	if (game->text && game->text->east)
+		mlx_delete_texture(game->text->east);
+	if (game->text)
+		free(game->text);
 }

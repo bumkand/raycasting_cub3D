@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marcel <marcel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmravec <mmravec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 21:39:34 by marcel            #+#    #+#             */
-/*   Updated: 2025/10/15 16:50:17 by marcel           ###   ########.fr       */
+/*   Updated: 2025/10/16 10:43:05 by mmravec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	setup_hooks(t_game *game)
 {
 	mlx_loop_hook(game->mlx, game_tick, game);
+	mlx_cursor_hook(game->mlx, &mouse_hook, game);
 }
 
 void	game_loop(t_game *game)

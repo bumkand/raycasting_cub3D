@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jakand <jakand@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmravec <mmravec@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 18:06:08 by jakand            #+#    #+#             */
-/*   Updated: 2025/10/14 21:41:25 by jakand           ###   ########.fr       */
+/*   Updated: 2025/10/16 11:17:52 by mmravec          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	main(int argc, char **argv)
 		return (1);
 	game_loop(&game);
 	free_texture(&game);
+	free_loaded_textures(&game);
 	free_map(&game);
 	return (0);
 }
